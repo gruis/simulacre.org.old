@@ -2,20 +2,23 @@
   - display_breadcrumbs
 
 #content
-  %article(role="main")
-    ~ @page.to_html(self)
 
-    %section.pages
-      = article_summaries(@page.pages)
+  #left-column
+    = haml :sidebar, :layout => false
 
-    - unless @page.articles.empty?
-      %section.articles
-        %header
-          %h1= articles_heading
-        = article_summaries(@page.articles)
+  #right-column
+    %article(role="main")
+      = haml :page_meta, :layout => false, :locals => { :page => @page }
+      ~ @page.to_html(self)
 
-    = haml :page_meta, :layout => false, :locals => { :page => @page }
+      %section.pages
+        = article_summaries(@page.pages)
 
-  = haml :comments, :layout => false
+      - unless @page.articles.empty?
+        %section.articles
+          %header
+            %h1= articles_heading
+          = article_summaries(@page.articles)
 
-= haml :sidebar, :layout => false
+
+    = haml :comments, :layout => false

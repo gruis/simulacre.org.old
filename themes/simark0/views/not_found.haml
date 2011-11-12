@@ -1,12 +1,20 @@
-%nav.breadcrumb
-  %a(href="/") Home
+#header
+  %p#logo
+    %a{ :href => "/" }= @heading
+    - if @subtitle
+      %small= no_widow @subtitle
+
+#sidebar
+  = haml :categories, :layout => false
+  = haml :feed, :layout => false
+  = haml :about, :layout => false
 
 #content
-  %section(role="main")
-    %h1 Page not found
+  .breadcrumb
+    %a{ :href => "/" } Home
 
-    %p
-      Please try another page or, if you think something is wrong with
-      our site, do get in touch and let us know.
+  %h1 Page not found
 
-= haml :sidebar, :layout => false
+  %p
+    Please try another page or, if you think something is wrong with our site,
+    do get in touch and let us know.

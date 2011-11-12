@@ -1,6 +1,0 @@
-Date: 31 Dec 2010
-
-# Start here
-
-You're reading a short article in Nesta, a rather simple CMS. I've
-c
