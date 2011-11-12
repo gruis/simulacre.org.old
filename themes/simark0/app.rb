@@ -8,7 +8,7 @@ module Nesta
     #
     # Put your assets in themes/simark0/public/simark0.
     #
-    use Rack::Static, :urls => ["/simark0"], :root => "themes/simark0/public"
+    use Rack::Static, :urls => ["/images","/js"], :root => "themes/simark0/public"
 
     helpers do
       # Add new helpers here.

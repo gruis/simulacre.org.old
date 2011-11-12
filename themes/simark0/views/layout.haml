@@ -13,7 +13,6 @@
     %link{ :href => "/articles.xml", :rel => "alternate", :type => "application/atom+xml" }
 
     %link{:charset => "utf-8", :href => "http://c5.simulacre.org/css/mootact.css", :media => "screen", :rel => "stylesheet", :title => "MooTact", :type => "text/css"}/
-    %link{:charset => "utf-8", :href => "http://c5.simulacre.org/css/main05.css", :media => "screen", :rel => "stylesheet", :title => "MooTact", :type => "text/css"}/
     /[if lte IE 8]
       <link rel="stylesheet" type="text/css" href="http://c5.simulacre.org/css/main-ie.css" />
       <link rel="stylesheet" type="text/css" href="http://c5.simulacre.org/css/mootact-ie6.css" />
@@ -51,10 +50,6 @@
       });
     %link{:href => "http://simulacre.org/feed/", :rel => "alternate", :title => "Simulacre » About Comments Feed", :type => "application/rss+xml"}/
     %link{:href => "http://simulacre.org/xmlrpc.php?rsd", :rel => "EditURI", :title => "RSD", :type => "application/rsd+xml"}/
-    %link{:href => "http://simulacre.org/wp-includes/wlwmanifest.xml", :rel => "wlwmanifest", :type => "application/wlwmanifest+xml"}/
-    %link{:href => "http://simulacre.org", :rel => "index", :title => "Simulacre"}/
-    %meta{:content => "WordPress 2.9.1", :name => "generator"}/
-    %link{:href => "http://simulacre.org", :rel => "canonical"}/
     %link{:href => "http://disqus.com/stylesheets/simulacre/disqus.css?v=2.0", :media => "screen", :rel => "stylesheet", :type => "text/css"}/
   %body{ :class => [@body_class,'home','page','page-id-2','page-template-splash-php'] }
     #meta-nav
@@ -102,12 +97,12 @@
         });
     #page-desc
       %h1
-        %a{:href => "http://simulacre.org/"} 
+        %a{:href => base_url } 
           = @heading
       %p 
         = @subtitle
 
-      %form#searchform{:action => "/", :method => "get"}
+      %form#searchform{:action => "/search", :method => "get"}
         %input#s{:name => "s", :onBlur => "if(this.value == '') this.value='Search'", :onFocus => "if(this.value == 'Search') this.value=''", :type => "text", :value => "Search"}
       %p#notify
 
@@ -115,8 +110,8 @@
       = yield
 
     #footer
-      %a{:href => "http://www.simulacre.org/"}
-        %img{:src => "http://c5.simulacre.org/images/simulacreBadge0b.png"}/
+      %a{:href => base_url}
+        %img{:src => "/images/simulacreBadge0b.png"}/
       %p
         Powered by
         %a{ :href => "http://nestacms.com" } nesta
