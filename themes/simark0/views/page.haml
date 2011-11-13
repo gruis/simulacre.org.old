@@ -17,4 +17,7 @@
         = article_summaries(@page.articles)
 
 
+  %h2 Categories
+  = categories_cnt
+  = haml :categories, :layout => false
   = haml :comments, :layout => false
