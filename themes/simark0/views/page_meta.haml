@@ -1,10 +1,11 @@
 - if page.date
   %p.postmetadata
-    Published:
+    Posted:
     - if page.date
       on
       %time(datetime="#{page.date.to_s}" pubdate=true)= format_date(page.date)
     - if (! page.categories.empty?)
+      -# this doesn't seem to be working correctly. categories is always empty ...
       in
       - page.categories.each do |category|
         - if category != page.categories[-1]
@@ -12,6 +13,7 @@
             %a(href="#{category.abspath}")= category.heading
         - else
           %a(href="#{category.abspath}")= category.heading
+
 - if page.keywords
   %p.postmetadata
     Tags:
@@ -19,4 +21,3 @@
       -# remove comma from the anchor
       -# use a helper to construct tags with necessary substitutions
       %a(href="/tag/#{keyword.gsub(/\s/,"-")}")= "#{keyword},"
-      

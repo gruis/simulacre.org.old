@@ -27,38 +27,9 @@
         %li.categories
           %h2 Categories
           %ul
-            %li.cat-item.cat-item-14
-              %a{:href => "http://simulacre.org/category/infrastructure/", :title => "View all posts filed under Infrastructure"} Infrastructure
-              (3)
-              %ul.children
-                %li.cat-item.cat-item-62
-                  %a{:href => "http://simulacre.org/category/infrastructure/disaster-recovery/", :title => "View all posts filed under Disaster Recovery"} Disaster Recovery
-                  (1)
-            %li.cat-item.cat-item-58
-              %a{:href => "http://simulacre.org/category/japan/", :title => "View all posts filed under Japan"} Japan
-              (1)
-            %li.cat-item.cat-item-7
-              %a{:href => "http://simulacre.org/category/kanjitastic/", :title => "View all posts filed under KanjiTastic"} KanjiTastic
-              (1)
-            %li.cat-item.cat-item-11
-              %a{:href => "http://simulacre.org/category/mootools/", :title => "View all posts filed under MooTools"} MooTools
-              (5)
-              %ul.children
-                %li.cat-item.cat-item-40
-                  %a{:href => "http://simulacre.org/category/mootools/modules-mootools/", :title => "View all posts filed under Modules"} Modules
-                  (3)
-            %li.cat-item.cat-item-31
-              %a{:href => "http://simulacre.org/category/snippets/", :title => "View all posts filed under snippets"} snippets
-              (3)
-            %li.cat-item.cat-item-19
-              %a{:href => "http://simulacre.org/category/travel/", :title => "View all posts filed under Travel"} Travel
-              (2)
-            %li.cat-item.cat-item-3
-              %a{:href => "http://simulacre.org/category/twitter/", :title => "View all posts filed under Twitter"} Twitter
-              (1)
-            %li.cat-item.cat-item-1
-              %a{:href => "http://simulacre.org/category/uncategorized/", :title => "View all posts filed under Uncategorized"} Uncategorized
-              (1)
+            - categories_cnt.each do |name, count|
+              %li.cat-item
+                %a{:href => "/category/#{name}", :title => "View all posts filed under #{name}"}= "#{name} (#{count})"
 #rss-widg.widget
   .border
     .center.inner

@@ -3,8 +3,6 @@
 
 module Nesta
   class App
-    # Uncomment the Rack::Static line below if your theme has assets
-    # (i.e images or JavaScript).
     use Rack::Static, :urls => ["/images","/js"], :root => "themes/simark0/public"
 
     helpers do

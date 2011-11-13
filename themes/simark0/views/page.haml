@@ -2,6 +2,7 @@
   = haml :sidebar, :layout => false
 
 #right-column
+  -# Add a previous page link
   %article(role="main")
     %h1= @page.heading
     = haml :page_meta, :layout => false, :locals => { :page => @page }
@@ -15,9 +16,3 @@
         %header
           %h1= articles_heading
         = article_summaries(@page.articles)
-
-
-  %h2 Categories
-  = categories_cnt
-  = haml :categories, :layout => false
-  = haml :comments, :layout => false
