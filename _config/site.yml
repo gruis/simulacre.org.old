@@ -1,0 +1,6 @@
+title: Simulacre.org
+subtitle: Javascript, Ruby and Japan
+google_analytics: 
+ignore:
+- Gemfile
+- Gemfile.lock

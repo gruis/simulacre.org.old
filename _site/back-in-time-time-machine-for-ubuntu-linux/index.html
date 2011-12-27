@@ -1,0 +1,336 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html dir='ltr' lang='en-US' xmlns='http://www.w3.org/1999/xhtml'>
+  <head>
+    <meta content='text/html; charset=utf-8' http-equiv='content-type' />
+    <title>
+      Back in Time: Time Machine for Ubuntu Linux
+    </title>
+    <link href='/stylesheets/master.css' media='screen' rel='stylesheet' type='text/css' />
+    <link href='/stylesheets/print.css' media='print' rel='stylesheet' type='text/css' />
+    <!--[if lte IE 8]>
+      <link href='http://c5.simulacre.org/css/main-ie.css' media='screen, projection' rel='stylesheet' type='text/css' />
+      <link href='http://c5.simulacre.org/css/mootact-ie6.css' media='screen, projection' rel='stylesheet' type='text/css' />
+      <link href='/stylesheets/ie.css' media='screen, projection' rel='stylesheet' type='text/css' />
+    <![endif]-->
+    <link href='http://disqus.com/stylesheets/simulacre/disqus.css?v=2.0' media='screen, projection' rel='stylesheet' type='text/css' />
+    <link href='http://simulacre.org/feed' media='screen, projection' rel='alternate' title='Simulacre About Comments Feed' type='application/rss+xml' />
+    <link href='http://simulacre.org/xmlrpc.php' rel='pingback' />
+    <script src='http://ajax.googleapis.com/ajax/libs/mootools/1.2.4/mootools-yui-compressed.js' type='text/javascript'></script>
+    <script src='http://c5.simulacre.org/js/mootools/1.2.4.4-more.js' type='text/javascript'></script>
+    <script src='http://c5.simulacre.org/js/lighter/Lighter.js' type='text/javascript'></script>
+    <script src='http://c5.simulacre.org/js/mootact.js' type='text/javascript'></script>
+    <script charset='utf-8' src='http://c5.simulacre.org/js/moozoom.js' type='text/javascript'></script>
+    <script src='http://use.typekit.com/hhg4anw.js' type='text/javascript'></script>
+    <script type='text/javascript'>
+      //<![CDATA[
+        try{Typekit.load();}catch(e){}    
+        
+        window.addEvent("domready", function(){
+          $("notify").set('highlight', {duration: 'long'});
+          $('mootact_button') && $('mootact_button').addEvent("click", function(e){
+              e && e.stop();
+              $("notify").fade("out");
+              new MooTact( {
+                title 	: 'MooTact Contact Form',
+                 url		: "/send.json.php",
+                 onSuccess: function(){
+                    (function(){
+                      $("notify").set('html', 'E-mail sent ... Thank you!' ).fade("in");
+                      (function(){$("notify").highlight(); }).delay(750);
+                    }).delay(750);
+                  }
+               }).show();
+          });
+          // todo change fuel based on attribute of code tag
+          $$('code').light({ altLines: 'hover', flame: "mocha", fuel : "js", mode : "ol" });
+          //new MooZoom.Strict({ close: "top-right", imageRoot: "http://c5.simulacre.org/images/" });
+        });
+      //]]>
+    </script>
+  </head>
+  <body class='bp home page page-id-2 page-template-splash-php'>
+    <div id='meta-nav'>
+      <a href='http://www.simulacre.org/' id='meta-logo'></a>
+      <ul class='horiz-nav'>
+        <li class='showing'>
+          <a href='/'>Blog</a>
+          <p class='desc'>
+            <a href='/'>Javascript & Japan</a>
+          </p>
+        </li>
+        <li>
+          <a href='http://www.simulacre.org/ee/'>PhotoBlog</a>
+          <p class='desc'>
+            <a href='http://www.simulacre.org/ee/'>Kendo & Travel</a>
+          </p>
+        </li>
+        <li>
+          <a href='http://www.kanjitastic.com/'>KanjiTastic</a>
+          <p class='desc'>
+            <a href='http://www.kanjitastic.com/'>SRS Japanese Flashcards</a>
+          </p>
+        </li>
+        <li>
+          <a href='/mootools-html5-audio-player/'>mtAudioPlayer</a>
+          <p class='desc'>
+            <a href='/mootools-html5-audio-player/'>HTML5 Audio Player</a>
+          </p>
+        </li>
+        <li>
+          <a href='/mootact'>MooTact</a>
+          <p class='desc'>
+            <a href='/mootact'>Lightbox Contact Form</a>
+          </p>
+        </li>
+        <li>
+          <a href='/meditastic-mp3s/'>MediTastic</a>
+          <p class='desc'>
+            <a href='/meditastic-mp3s/'>Medical Terminology MP3s</a>
+          </p>
+        </li>
+        <li>
+          <a href='http://mootools.net/forge/p/exitpoll'>ExitPoll</a>
+          <p class='desc'>
+            <a href='http://mootools.net/forge/p/exitpoll'>Website Exit Tracking</a>
+          </p>
+        </li>
+        <li>
+          <a href='http://impel.simulacre.org'>Impel</a>
+          <p class='desc'>
+            <a href='http://impel.simulacre.org'>HTML5 ORM</a>
+          </p>
+        </li>
+      </ul>
+      <script type='text/javascript'>
+        //<![CDATA[
+          window.addEvent("domready", function(){
+            $$(".horiz-nav li").each(function(li){
+              var a = li.getFirst("a");
+              if(!a) return;
+              li.addEvent("click", function(){ window.location = a.get("href"); })
+            });
+          });
+        //]]>
+      </script>
+    </div>
+    <div id='page-desc'>
+      <h1>
+        <a href='/'>
+          Simulacre.org
+        </a>
+      </h1>
+      <p>
+        Javascript, Ruby and Japan
+      </p>
+      <form action='/search' id='searchform' method='get'>
+        <input id='s' name='s' onBlur="if(this.value == '') this.value='Search'" onFocus="if(this.value == 'Search') this.value=''" type='text' value='Search' />
+      </form>
+      <p id='notify'></p>
+    </div>
+    <div class='clearfix' id='content'>
+      <div id='left-column'>
+        <div class='widget'>
+          <div class='border'>
+            <div class='center inner' id='advert'>
+              <script src='http://pagead2.googlesyndication.com/pagead/show_ads.js' type='text/javascript'></script>
+            </div>
+          </div>
+        </div>
+        <div class='widget'>
+          <div class='border'>
+            <div class='inner'>
+              <ul class='nav' role='navigation'>
+                <li class='pagenav'>
+                  <h2>Pages</h2>
+                  <ul>
+                    <li class='page_item page-item-2 current_page_item'>
+                      <a href='http://simulacre.org' title='About'>About</a>
+                    </li>
+                    <li class='page_item page-item-89'>
+                      <a href='http://simulacre.org/posts/' title='Posts'>Posts</a>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <h2>Archives</h2>
+                  <ul>
+                    <li>
+                      <a href='http://simulacre.org/2010/03/' title='March 2010'>March 2010</a>
+                    </li>
+                    <li>
+                      <a href='http://simulacre.org/2010/02/' title='February 2010'>February 2010</a>
+                    </li>
+                    <li>
+                      <a href='http://simulacre.org/2010/01/' title='January 2010'>January 2010</a>
+                    </li>
+                    <li>
+                      <a href='http://simulacre.org/2009/12/' title='December 2009'>December 2009</a>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class='widget' id='rss-widg'>
+          <div class='border'>
+            <div class='center inner'>
+              <a class='rss_button' href='/feed/'>Subscribe</a>
+            </div>
+          </div>
+        </div>
+        <div class='widget' id='contact-widg'>
+          <div class='border'>
+            <div class='center inner'>
+              <a href='#' id='mootact_button'>Contact</a>
+            </div>
+          </div>
+        </div>
+        <div class='widget' id='twidget' style='overflow:hidden;'>
+          <div class='border'>
+            <div class='center inner' id='twitter'>
+              <a class='twitter_button' href='http://www.twitter.com/calebcrane'>Follow Me</a>
+              <div id='tweets'></div>
+            </div>
+            <script src='http://c5.simulacre.org/js/twidget.js' type='text/javascript'></script>
+            <script charset='utf-8' type='text/javascript'>
+              window.addEvent("domready", function(){ new Twidget({user:"calebcrane"}); });
+            </script>
+          </div>
+        </div>
+      </div>
+      <div id='right-column'>
+        <article role='main'>
+          <h1>Back in Time: Time Machine for Ubuntu Linux</h1>
+          <p class='postmetadata'>
+            Posted:
+            2010-03-07
+            in
+            <a href='/categories/Disaster Recovery'>Disaster Recovery</a>,
+            <a href='/categories/Infrastructure'>Infrastructure</a>
+          </p>
+          <p class='postmetadata'>
+            Tags:
+            <a href='/tags/back in time/'>back in time</a>,
+            <a href='/tags/backintime/'>backintime</a>,
+            <a href='/tags/snapshots/'>snapshots</a>,
+            <a href='/tags/time machine/'>time machine</a>,
+            <a href='/tags/ubuntu/'>ubuntu</a>
+          </p>
+          <p><a href="http://backintime.le-web.org/">Back In Time</a> is a great GUI that reproduces the most important OSX Time Machine features: simple graphical configuration and snapshot backups. The current version (0.9.26) is, unfortunately, broken if you want to back up an entire installation. There is a fix, but the developer has not released it yet. Applying the fix yourself is, fortunately, very easy.</p>
+          
+          <p>Follow the directions below to install Back In Time for Ubuntu and backup your entire drive.</p>
+          
+          <h2>Install Back In Time</h2>
+          
+          <p>Add the following line to your apt sources file (/etc/apt/sources.list)</p>
+          
+          <pre><code>deb http://le-web.org/repository stable main&#x000A;</code></pre>
+          
+          <p>Add the GPG key information:</p>
+          
+          <pre><code>clc@lurr:~$ wget http://le-web.org/repository/le-web.key&#x000A;clc@lurr:~$ sudo apt-key add le-web.key&#x000A;</code></pre>
+          
+          <p>Install the backintime application for Gnome</p>
+          
+          <pre><code>clc@lurr:~$ sudo apt-get update&#x000A;clc@lurr:~$ sudo apt-get install backintime-common backintime-gnome&#x000A;</code></pre>
+          
+          <p>Now the default installation of Back In Time should be installed. You can stop here, but if you want to back up your entire drive starting from the root ("/"), you’ll need to install a patch.</p>
+          
+          <h2>Download and install the patch</h2>
+          
+          <pre><code>clc@lurr:~$ wget http://launchpadlibrarian.net/35340108/snapshots.py.patch&#x000A;  --2010-03-07 12:28:39--  http://launchpadlibrarian.net/35340108/snapshots.py.patch&#x000A;  Resolving launchpadlibrarian.net... 91.189.89.228, 91.189.89.229&#x000A;  Connecting to launchpadlibrarian.net|91.189.89.228|:80... connected.&#x000A;  HTTP request sent, awaiting response... 200 OK&#x000A;  Length: 431 [text/plain]&#x000A;  Saving to: `snapshots.py.patch'&#x000A;&#x000A;  100%[===================================================&gt;] 431      --.-K/s   in 0s      &#x000A;&#x000A;  2010-03-07 12:28:40 (13.9 MB/s) - `snapshots.py.patch' saved [431/431]&#x000A;&#x000A;clc@lurr:~$ sudo patch /usr/share/backintime/common/snapshots.py snapshots.py.patch&#x000A;  patching file /usr/share/backintime/common/snapshots.py&#x000A;</code></pre>
+          
+          <p>Easy as pie.</p>
+          
+          <p>Now launch backintime-gnome (assuming your are not using KDE) and configure it.</p>
+          
+          <h2>Configure Back In Time</h2>
+          
+          <pre><code>clc@lurr:~$ sudo backintime-gnome&#x000A;</code></pre>
+          
+          <p>Configure where you want the snapshots stored and how often.</p>
+          
+          <p><img src="/images/blog/backintime/general.png" alt="Back In Time Settings - General" /></p>
+          
+          <p>Tell backintime which directories you want to save. I’m going for my entire drive starting from the root ("/").</p>
+          
+          <p><img src="/images/blog/backintime/include.png" alt="Back In Time Settings: Include" /></p>
+          
+          <p>Make sure to tell backintime not to backup special directories as well as the directory you use to store the snapshots. Mine’s under /mnt/backup, so excluding /mnt will get the job done.</p>
+          
+          <p><img src="/images/blog/backintime/exclude.png" alt="Back In Time Settings: Exclude" /></p>
+          
+          <h2>Running as Root</h2>
+          
+          <p>If you want to backup your entire drive you’ll need backintime to run as root from root’s crontab. If you run backintime-gnome using sudo from the command line the config file for backintime won’t be saved in root’s .config directory though. When cron calls backintime it will look for the config and won’t find it, so you should create a link to the config file in root’s home directory.</p>
+          
+          <pre><code>clc@lurr:~$ sudo ln -s ~/.config/backintime/config /home/root/.config/backintime/config&#x000A;</code></pre>
+          
+          <h2>Debugging Back In Time</h2>
+          
+          <p>By default the output from Back In Time will be logged to /var/log/syslog. If your snapshots are not being saved as you expect check the syslog log.</p>
+          
+          <pre><code>clc@lurr:~$ tail -f /var/log/syslog&#x000A;</code></pre>
+          
+          <p>I was stymied me for a bit when the cron daemon didn’t seem to be actually running backintime as it should. A quick tail of /var/log/auth.log pointed out that the root account’s password was expired.</p>
+          
+          <pre><code>clc@lurr:~$ tail -f /var/log/auth.log&#x000A;</code></pre>
+          
+          <h2>Optional: Configure Dedicated Logging</h2>
+          
+          <p>By default Back In Time will log its progress to /var/log/syslog. That of course means that every time it runs there will be changes to filesystem, therefore, every time it runs it will need to take a snapshot.</p>
+          
+          <p>You can configure rsyslogd to push Back In Time’s logs to a dedicated file and then include that file in the exclude list.</p>
+          
+          <p>Create and edit /etc/rsyslog.d/40-backintime.conf</p>
+          
+          <pre><code>clc@lurr:~$ vim /etc/rsyslog.d/40-backintime.conf&#x000A;</code></pre>
+          
+          <p>Add the following lines</p>
+          
+          <pre><code>if $programname == 'backintime' then /var/log/backintime.log&#x000A;if $programname == 'backintime' then ~&#x000A;</code></pre>
+          
+          <p>Restart rsyslogd:</p>
+          
+          <pre><code>clc@lurr:~$ sudo service rsyslog restart&#x000A;</code></pre>
+          
+          <h2>Important Note</h2>
+          
+          <p>As of today, March 7th, 2010, the public release of Back In Time <a href="http://backintime.le-web.org/download/backintime/backintime-0.9.26_src.tar.gz">(v0.9.26)</a> has not been updated to correctly handle taking a snapshot of an entire Ubuntu installation starting from the root directory ("/"). The instructions above are a quick guide for how to correct the issue. Check the <a href="http://backintime.le-web.org/download_page/">Back In Time download page</a> for the latest version of the application as the public release may have been updated.</p>
+          
+          <h2>Further Reading</h2>
+          
+          <p>See the <a href="http://lifehacker.com/5212899/back-in-time-does-full-linux-backups-in-one-click">April 15th, 2009 LifeHacker article</a> for a rundown of the features of Back in Time.</p>
+        </article>
+      </div>
+    </div>
+    <div id='footer'>
+      <a>
+        <img src='/images/simulacreBadge0b.png' />
+      </a>
+      <p>
+        Powered by
+        <a href='http://awestruct.org/'>Awestruct</a>
+      </p>
+    </div>
+    <script type='text/javascript'>
+      //<![CDATA[
+        //
+        (function() {
+        	var links = document.getElementsByTagName('a');
+        	var query = '?';
+        	for(var i = 0; i < links.length; i++) {
+        	if(links[i].href.indexOf('#disqus_thread') >= 0) {
+        		query += 'url' + i + '=' + encodeURIComponent(links[i].href) + '&';
+        	}
+        	}
+        	document.write('<script charset="utf-8" type="text/javascript" src="http://disqus.com/forums/mtap/get_num_replies.js' + query + '"></' + 'script>');
+        })();
+        //
+      //]]>
+    </script>
+    <script src='http://c5.simulacre.org/js/exitpoll.js' type='text/javascript'></script>
+    <script charset='utf-8' type='text/javascript'>new ExitPoll();</script>
+  </body>
+</html>

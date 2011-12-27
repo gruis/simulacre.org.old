@@ -1,0 +1,42 @@
+.widget
+  .border
+    #advert.center.inner
+      %script{:src => "http://pagead2.googlesyndication.com/pagead/show_ads.js", :type => "text/javascript"}
+.widget
+  .border
+    .inner
+      %ul.nav{:role => "navigation"}
+        %li.pagenav
+          %h2 Pages
+          %ul
+            %li.page_item.page-item-2.current_page_item
+              %a{:href => "http://simulacre.org", :title => "About"} About
+            %li.page_item.page-item-89
+              %a{:href => "http://simulacre.org/posts/", :title => "Posts"} Posts
+        %li
+          %h2 Archives
+          %ul
+            %li
+              %a{:href => "http://simulacre.org/2010/03/", :title => "March 2010"} March 2010
+            %li
+              %a{:href => "http://simulacre.org/2010/02/", :title => "February 2010"} February 2010
+            %li
+              %a{:href => "http://simulacre.org/2010/01/", :title => "January 2010"} January 2010
+            %li
+              %a{:href => "http://simulacre.org/2009/12/", :title => "December 2009"} December 2009
+#rss-widg.widget
+  .border
+    .center.inner
+      %a.rss_button{:href => "/feed/"} Subscribe
+#contact-widg.widget
+  .border
+    .center.inner
+      %a#mootact_button{:href => "#"} Contact
+#twidget.widget{:style => "overflow:hidden;"}
+  .border
+    #twitter.center.inner
+      %a.twitter_button{:href => "http://www.twitter.com/calebcrane"} Follow Me
+      #tweets
+    %script{:src => "http://c5.simulacre.org/js/twidget.js", :type => "text/javascript"}
+    %script{:charset => "utf-8", :type => "text/javascript"}
+      window.addEvent("domready", function(){ new Twidget({user:"calebcrane"}); });
