@@ -1,27 +1,17 @@
 ---
 layout: base
 ---
+-#encoding: utf-8
 %p.postmetadata
   Posted:
   = page.date.strftime('%Y-%m-%d')
   - if (! page.categories.empty?)
-    -# this doesn't seem to be working correctly. categories is always empty ...
     in
-    - page.categories.each do |category|
-      - if category != page.categories[-1]
-        = succeed ',' do
-          %a(href="/categories/#{category}")= category
-      - else
-        %a(href="/categories/#{category}")= category
+    = page.category_links
 
 %p.postmetadata
   Tags:
-  - page.tags.each do |tag|
-    - if tag != page.tags[-1]
-      = succeed "," do
-        %a{:href => tag.primary_page.url}= tag
-    - else
-      %a{:href=>tag.primary_page.url}= tag
+  = page.tag_links
 
 ~ content
 = page.disqus_comments

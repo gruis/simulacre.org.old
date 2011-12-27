@@ -1,6 +1,7 @@
 ---
 layout: base
 ---
+-#encoding: utf-8
 - site.posts.each do |post|
   .post.hentry
     %h2
@@ -8,15 +9,16 @@ layout: base
     %small
       = post.date.strftime('%Y-%m-%d')
     .entry
-      = post.content
-      %p
-        %a{:href => post.url} Read More »
+      - if post.summary
+        = post.summary
+        %p
+          %a{:href => post.url} Read More »
+      -else
+        = post.content
 
     %p.postmetadata
       Tags:
-      - post.tags.each do |tag|
-        %a{:href=>tag.primary_page.url}= tag
+      = post.tag_links
       %br
       Posted in:
-      - post.categories.each do |cat|
-        %a(href="/categories/#{cat}")= cat
+      = post.category_links
