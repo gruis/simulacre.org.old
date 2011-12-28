@@ -22,7 +22,7 @@ layout: base
       - unless page.date.nil?
         = page.date.strftime('%Y-%m-%d')
       in
-      = page.category_links
+      = page.category_links( :delimiter => " » ")
 
     %p.postmetadata
       Tags:
