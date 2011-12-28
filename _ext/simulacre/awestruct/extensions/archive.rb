@@ -2,8 +2,8 @@ module Simulacre
   module Awestruct
     module Extensions
 
-      # Groups posts by MM/YY
-      class GroupPosts
+      # Gropus posts by MM/YY
+      class Archive
         attr_reader :format, :url_format
         def initialize(format = "%B %Y", url_format = "/%Y/%m/")
           @format     = format
@@ -53,7 +53,7 @@ module Simulacre
           end # grouped_posts
         end # module::Helper
 
-      end # module::GroupPosts
+      end # module::Archive
 
     end # module::Extensions
   end # module::Awestruct
