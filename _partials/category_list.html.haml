@@ -1,0 +1,17 @@
+%li.categories
+  %h2 Categories
+  %ul
+    -# There is no limit to the possible depth of Categories, but we limit the display to a depth of 2 here.
+    -# It prevents the list from getting horribly wide in a sidebar. It also keeps me from having to learn 
+    -# Haml better.
+    - page.categories.each do |category|
+      - if category.children?
+        %li.current-cat-parent.cat-item
+          %a{:href => category.primary_page.url, :title => "View all posts filed under #{category.name}"}= "#{category.name} (#{category.total})"
+          %ul.children
+            - category.children.each do |child|
+              %li.cat-item.current-cat
+                %a{:href => child.primary_page.url, :title => "View all posts filed under #{child.name}"}= "#{child.name} (#{child.total})"
+      - else
+        %li.cat-item
+          %a{:href => category.primary_page.url, :title => "View all posts filed under #{category.name}"}= "#{category.name} (#{category.total})"

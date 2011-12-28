@@ -207,27 +207,31 @@
       </div>
       <div id='right-column'>
         <h1>
-          Posts Tagged 'snapshots'
+          Archive for the ‘snippets’ Category
         </h1>
         <div class='post hentry'>
           <h2>
-            <a href='/back-in-time-time-machine-for-ubuntu-linux/'>Back in Time: Time Machine for Ubuntu Linux</a>
+            <a href='/create-a-2gb-ram-disk-in-osx/'>Create a 2GB RAM Disk in OSX</a>
           </h2>
           <small>
-            2010-03-07
+            2010-02-26
           </small>
           <div class='entry'>
-            <p><a href="http://backintime.le-web.org/">Back In Time</a> is a great GUI that reproduces the most important OSX Time Machine features: simple graphical configuration and snapshot backups. The current version (0.9.26) is, unfortunately, broken if you want to back up an entire installation. There is a fix, but the developer has not released it yet. Applying the fix yourself is, fortunately, very easy.</p>
-            <p>
-              <a href='/back-in-time-time-machine-for-ubuntu-linux/'>Read More »</a>
-            </p>
+            <pre>
+            <code class="shell">
+            diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://4194304`
+            </code>
+            </pre>
+            
+            
+            <p>The only variable is the number of sectors. Calculate it by (size in MB) * 2048</p>
           </div>
           <p class='postmetadata'>
             Tags:
-            <a href="/tag/back in time/">back in time</a>, <a href="/tag/backintime/">backintime</a>, <a href="/tag/snapshots/">snapshots</a>, <a href="/tag/time machine/">time machine</a>, <a href="/tag/ubuntu/">ubuntu</a>
+            <a href="/tag/OSX/">OSX</a>, <a href="/tag/ram disk/">ram disk</a>, <a href="/tag/sectors/">sectors</a>
             <br />
             Posted in:
-            <a href="/category/infrastructure/">Infrastructure</a>, <a href="/category/infrastructure/disaster-recovery/">Disaster Recovery</a>
+            <a href="/category/infrastructure/">Infrastructure</a>, <a href="/category/infrastructure/snippets/">snippets</a>
           </p>
         </div>
       </div>

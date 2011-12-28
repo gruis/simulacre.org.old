@@ -1,4 +1,4 @@
-Dir[File.dirname(__FILE__) + "/simulacre/awestruct/extensions/*" ].each { |ext| require ext }
+require "simulacre"
 
 Awestruct::Extensions::Pipeline.new do
   extension Simulacre::Awestruct::Extensions::Posts.new('/posts')

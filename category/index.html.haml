@@ -5,26 +5,31 @@ layout: base
   = partial( 'sidebar.html.haml' )
 
 #right-column
-  %h1 
-    Archive for the ‘#{page.category}’ Category
-  - if page.posts
-    - page.posts.each do |post|
-      .post.hentry
-        %h2
-          %a{:href=>post.url}= post.title
-        %small
-          = post.date.strftime('%Y-%m-%d')
-        .entry
-          - if post.summary
-            = post.summary
-            %p
-              %a{:href => post.url} Read More »
-          -else
-            = post.content
+  - if page.category.nil?
+    %h1 A category name is required
+  - else
+    %h1 
+      Archive for the ‘#{page.category.name}’ Category
+      - if page.category.children?
+        and Its Children
+    - if page.posts
+      - page.posts.each do |post|
+        .post.hentry
+          %h2
+            %a{:href=>post.url}= post.title
+          %small
+            = post.date.strftime('%Y-%m-%d')
+          .entry
+            - if post.summary
+              = post.summary
+              %p
+                %a{:href => post.url} Read More »
+            -else
+              = post.content
 
-        %p.postmetadata
-          Tags:
-          = post.tag_links
-          %br
-          Posted in:
-          = post.category_links
+          %p.postmetadata
+            Tags:
+            = post.tag_links
+            %br
+            Posted in:
+            = post.category_links
