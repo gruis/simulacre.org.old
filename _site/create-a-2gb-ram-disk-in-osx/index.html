@@ -43,7 +43,7 @@
           });
           // todo change fuel based on attribute of code tag
           $$('code').light({ altLines: 'hover', flame: "mocha", fuel : "js", mode : "ol" });
-          //new MooZoom.Strict({ close: "top-right", imageRoot: "http://c5.simulacre.org/images/" });
+          new MooZoom.Strict({ close: "top-right", imageRoot: "http://c5.simulacre.org/images/" });
         });
       //]]>
     </script>
@@ -153,20 +153,7 @@
                 </li>
                 <li>
                   <h2>Archives</h2>
-                  <ul>
-                    <li>
-                      <a href='http://simulacre.org/2010/03/' title='March 2010'>March 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2010/02/' title='February 2010'>February 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2010/01/' title='January 2010'>January 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2009/12/' title='December 2009'>December 2009</a>
-                    </li>
-                  </ul>
+                  <ul class=""><li><a href="/2010/03/" title="March 2010 1">March 2010 (1)</a></li><li><a href="/2010/02/" title="February 2010 2">February 2010 (2)</a></li></ul>
                 </li>
               </ul>
             </div>
@@ -200,6 +187,16 @@
         </div>
       </div>
       <div id='right-column'>
+        <div class='navigation'>
+          <div class='alignleft'>
+            «
+            <a href='/valentine-choco/'>Valentine Choco</a>
+          </div>
+          <div class='alignright'>
+            <a href='/back-in-time-time-machine-for-ubuntu-linux/'>Back in Time: Time Machine for Ubuntu Linux</a>
+            »
+          </div>
+        </div>
         <article role='main'>
           <h1>Create a 2GB RAM Disk in OSX</h1>
           <p class='postmetadata'>
@@ -216,6 +213,7 @@
           
           
           <p>The only variable is the number of sectors. Calculate it by (size in MB) * 2048</p>
+          
         </article>
       </div>
     </div>

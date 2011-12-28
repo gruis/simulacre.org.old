@@ -1,17 +1,20 @@
 ---
 layout: base
 ---
--#encoding: utf-8
-.posts.recent
-  %h2 Most Recent Post
-  - site.posts.first.tap do |post|
-    %h3{:style => "margin-top:0;"}
-      %a{:href => post.url}= post.title
-    .entry
-      - if post.summary
-        = post.summary
-        %p
-          %a{:href => post.url} Read More »
-      -else
-        = post.content
-%a{:href => '/posts/'} « Older Entries
+#left-column
+  = partial( 'sidebar.html.haml' )
+
+#right-column
+  .posts.recent
+    %h2 Most Recent Post
+    - site.posts.first.tap do |post|
+      %h3{:style => "margin-top:0;"}
+        %a{:href => post.url}= post.title
+      .entry
+        - if post.summary
+          = post.summary
+          %p
+            %a{:href => post.url} Read More »
+        -else
+          = post.content
+  %a{:href => '/posts/'} « Older Entries

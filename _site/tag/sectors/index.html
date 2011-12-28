@@ -43,7 +43,7 @@
           });
           // todo change fuel based on attribute of code tag
           $$('code').light({ altLines: 'hover', flame: "mocha", fuel : "js", mode : "ol" });
-          //new MooZoom.Strict({ close: "top-right", imageRoot: "http://c5.simulacre.org/images/" });
+          new MooZoom.Strict({ close: "top-right", imageRoot: "http://c5.simulacre.org/images/" });
         });
       //]]>
     </script>
@@ -153,20 +153,7 @@
                 </li>
                 <li>
                   <h2>Archives</h2>
-                  <ul>
-                    <li>
-                      <a href='http://simulacre.org/2010/03/' title='March 2010'>March 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2010/02/' title='February 2010'>February 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2010/01/' title='January 2010'>January 2010</a>
-                    </li>
-                    <li>
-                      <a href='http://simulacre.org/2009/12/' title='December 2009'>December 2009</a>
-                    </li>
-                  </ul>
+                  <ul class=""><li><a href="/2010/03/" title="March 2010 1">March 2010 (1)</a></li><li><a href="/2010/02/" title="February 2010 2">February 2010 (2)</a></li></ul>
                 </li>
               </ul>
             </div>
@@ -200,22 +187,34 @@
         </div>
       </div>
       <div id='right-column'>
-        <article role='main'>
-          <h1></h1>
-          <div class='posts recent'>
-            <h2>Most Recent Post</h2>
-            <h3 style='margin-top:0;'>
-              <a href='/back-in-time-time-machine-for-ubuntu-linux/'>Back in Time: Time Machine for Ubuntu Linux</a>
-            </h3>
-            <div class='entry'>
-              <p><a href="http://backintime.le-web.org/">Back In Time</a> is a great GUI that reproduces the most important OSX Time Machine features: simple graphical configuration and snapshot backups. The current version (0.9.26) is, unfortunately, broken if you want to back up an entire installation. There is a fix, but the developer has not released it yet. Applying the fix yourself is, fortunately, very easy.</p>
-              <p>
-                <a href='/back-in-time-time-machine-for-ubuntu-linux/'>Read More »</a>
-              </p>
-            </div>
+        <h1>
+          Posts Tagged 'sectors'
+        </h1>
+        <div class='post hentry'>
+          <h2>
+            <a href='/create-a-2gb-ram-disk-in-osx/'>Create a 2GB RAM Disk in OSX</a>
+          </h2>
+          <small>
+            2010-02-26
+          </small>
+          <div class='entry'>
+            <pre>
+            <code class="shell">
+            diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://4194304`
+            </code>
+            </pre>
+            
+            
+            <p>The only variable is the number of sectors. Calculate it by (size in MB) * 2048</p>
           </div>
-          <a href='/posts/'>« Older Entries</a>
-        </article>
+          <p class='postmetadata'>
+            Tags:
+            <a href="/tag/OSX/">OSX</a>, <a href="/tag/ram disk/">ram disk</a>, <a href="/tag/sectors/">sectors</a>
+            <br />
+            Posted in:
+            <a href="/category/Infrastructure/">Infrastructure</a>, <a href="/category/snippets/">snippets</a>
+          </p>
+        </div>
       </div>
     </div>
     <div id='footer'>

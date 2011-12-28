@@ -5,3 +5,4 @@ gem 'rb-fsevent'
 # our own version
 #gem 'awestruct', :git => 'https://github.com/simulacre/awestruct.git'
 gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"
+

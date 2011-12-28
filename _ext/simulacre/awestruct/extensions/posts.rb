@@ -13,7 +13,7 @@ module Simulacre
 
         def execute(site)
           super(site).each do |page|
-            page.layout = 'posts' unless page.layout
+            page.layout = 'post' unless page.layout
             page.summary = RDiscount.new( page.summary ).to_html if page.summary
             next unless page.slug
             page.slug.downcase!
