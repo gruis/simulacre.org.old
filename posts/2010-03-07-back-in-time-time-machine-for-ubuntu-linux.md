@@ -9,8 +9,8 @@ tags:
 - time machine
 - ubuntu
 categories: 
-- Disaster Recovery
 - Infrastructure
+- Disaster Recovery
 ---
 [Back In Time](http://backintime.le-web.org/) is a great GUI that reproduces the most important OSX Time Machine features: simple graphical configuration and snapshot backups. The current version (0.9.26) is, unfortunately, broken if you want to back up an entire installation. There is a fix, but the developer has not released it yet. Applying the fix yourself is, fortunately, very easy.
 
