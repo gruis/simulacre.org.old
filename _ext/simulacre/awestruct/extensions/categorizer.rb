@@ -103,7 +103,8 @@ module Simulacre
           attr_accessor :categories
           # Provides links for each category for the current page
           # seperated by "," or a specified delimiter.
-          def category_links(opts = {:delimiter => ', ', :style_class => nil})
+          def category_links(opts = {})
+            opts = {:delimiter => ', ', :style_class => nil}.merge(opts)
             categories.reverse.map{|cat| cat.to_link(opts[:style_class]) }.join(opts[:delimiter])
           end
 

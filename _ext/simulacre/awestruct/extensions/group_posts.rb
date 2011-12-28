@@ -7,8 +7,8 @@ module Simulacre
         attr_reader :format, :url_format
         def initialize(format = "%B %Y", url_format = "/%Y/%m/")
           @format     = format
-          url_format  = "/#{url_format}" unless url_format[0]  =  '/'
-          url_format  = "#{url_format}/" unless url_format[-1] =  '/'
+          url_format  = "/#{url_format}" unless url_format[0] ==  '/'
+          url_format  = url_format[0..-2] if url_format[-1] ==  '/'
           @url_format = url_format
         end
 
@@ -23,13 +23,19 @@ module Simulacre
           end
 
           grouped.each do |grp, psts|
-            $stderr.puts "rendering #{psts[:url]}/index.html"
+            ::Awestruct::Extensions::Paginator.new(:posts, '/archive/index',
+                                                   :remove_input  => false,
+                                                   :output_prefix => psts[:url],
+                                                   :collection    => psts[:posts].flatten,
+                                                   :front_matter  => {:group => grp}
+                                                  ).execute(site)
           end # grp, psts
 
           site.grouped_posts = grouped
         end # execute(site)
 
         module Helper
+          # @todo use a partial template
           def grouped_posts(klass = '')
             html = %Q{<ul class="#{klass}">}
             begin
