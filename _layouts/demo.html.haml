@@ -1,0 +1,28 @@
+---
+layout: base
+---
+#left-column
+  -if page.download.is_a?(Hash)
+    .widget
+      .border
+        #download.center.inner
+          %h2
+            Download #{page.download[:name]}
+          %a{:href => "#{page.download[:tgz][:url]}"}
+            %img{:src => "http://c5.simulacre.org/images/download0a.png"}
+          - if page.download[:version]
+            %p.small-print= page.download[:version]
+          %p.small-print
+            %a{:href => "#{page.download[:zip][:url]}"}
+              zip 
+              - if page.download[:zip][:size]
+                (#{page.download[:zip][:size]})
+            |
+            %a{:href => "#{page.download[:tgz][:url]}"}
+              tgz
+              - if page.download[:tgz][:size]
+                (#{page.download[:tgz][:size]})
+  = partial( 'sidebar.html.haml' )
+
+#right-column
+  = content

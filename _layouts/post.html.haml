@@ -1,32 +1,28 @@
 ---
-layout: base
+layout: standard
 ---
-#left-column
-  = partial( 'sidebar.html.haml' )
+.navigation
+  .alignleft
+    - if page.previous_post
+      « 
+      %a{:href=>page.previous_post.url} #{page.previous_post.title}
+  .alignright
+    - if page.next_post
+      %a{:href=>page.next_post.url} #{page.next_post.title}
+      »
 
-#right-column
-  .navigation
-    .alignleft
-      - if page.previous_post
-        « 
-        %a{:href=>page.previous_post.url} #{page.previous_post.title}
-    .alignright
-      - if page.next_post
-        %a{:href=>page.next_post.url} #{page.next_post.title}
-        »
+%article(role="main")
+  %h1= page.title
+  %p.postmetadata
+    Posted:
+    - unless page.date.nil?
+      = page.date.strftime('%Y-%m-%d')
+    in
+    = page.category_links( :delimiter => " » ")
 
-  %article(role="main")
-    %h1= page.title
-    %p.postmetadata
-      Posted:
-      - unless page.date.nil?
-        = page.date.strftime('%Y-%m-%d')
-      in
-      = page.category_links( :delimiter => " » ")
+  %p.postmetadata
+    Tags:
+    = page.tag_links
 
-    %p.postmetadata
-      Tags:
-      = page.tag_links
-
-    ~ content
-    = page.disqus_comments
+  ~ content
+  = page.disqus_comments

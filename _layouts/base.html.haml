@@ -96,11 +96,13 @@
         });
 
     #page-desc
-      %h1
-        %a{:href => "/" } 
-          = site.title
-      %p 
-        = site.subtitle
+      - if page.demo && page.demo[:title] && page.demo[:subtitle]
+        %h1= page.demo[:title]
+        %p= page.demo[:subtitle]
+      - else
+        %h1
+          %a{:href => "/" }= site.title
+        %p= site.subtitle
 
       %form#searchform{:action => "/search", :method => "get"}
         %input#s{:name => "s", :onBlur => "if(this.value == '') this.value='Search'", :onFocus => "if(this.value == 'Search') this.value=''", :type => "text", :value => "Search"}
