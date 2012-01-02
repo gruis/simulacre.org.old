@@ -2,3 +2,4 @@ Gemfile
 Gemfile.lock
 config.ru
 sinatra/**/*
+sinatra/ferret.idx/**/*

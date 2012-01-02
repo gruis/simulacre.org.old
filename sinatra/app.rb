@@ -9,12 +9,18 @@ register Sinatra::Async
 set :mailer, YAML.load_file(".mailer.yml") if File.exists?(".mailer.yml")
 
 #set :sindex, Ferret::Index::Index.new(:path => settings.root + "/ferret.idx")
-set :sindex, Ferret::Index::Index.new(:path => settings.root + "/ferret.idx")
+set :sindex, Ferret::Index::Index.new
 awe.site.pages.each do |page|
-  next unless File.extname(page.output_path) == ".html"
-  puts "indexing #{page.output_path} (#{page.url})"
-  puts "  title: #{page.title} @#{page.date}; tags: #{page.tags} "
-  puts page.content if page.title
+  next unless File.extname(page.output_path) == ".html" && (page.title || page.demo)
+  settings.sindex << {
+    :title   => page.title || "#{page.demo[:title]} - #{page.demo[:subtitle]}",
+    :url     => page.url,
+    :summary => page.summary,
+    :tags    => page.tags && page.tags.join(", "),
+    :date    => page.date,
+    :content => page.content
+  }
+  puts "indexed: #{page.url}"
 end # page
 
 
@@ -30,7 +36,19 @@ end
 
 get '/search/q/:query/?' do |q|
   content_type :json
-  JSON.dump({ :query => q, :results => [] })
+  results = {}
+  settings.sindex.search_each(%Q{*: #{q} }) do |id, score|
+    puts "id: #{id.inspect}; score: #{score.inspect}"
+    puts "url: #{settings.sindex[id][:url]}"
+    page = settings.sindex[id]
+    results[page[:url]] = { :url     => page[:url],
+                            :title   => page[:title],
+                            :date    => page[:date],
+                            :tags    => page[:tags],
+                            :summary => page[:summary].force_encoding("UTF-8"),
+                            :score   => score}
+  end # id, score
+  JSON.dump({ :query => q, :results => results })
 end
 
 apost '/mail.json' do
