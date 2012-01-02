@@ -60,7 +60,7 @@ class Awestruct::Sinatra < Sinatra::Base
         return if base.length < awc.input_dir.length or awc.input_dir != base[0..awc.input_dir.length]
         path = base + relative
         path = path[awc.input_dir.length..path.length]
-        return if path =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/ || path =~ /.*(~|\.(swp|bak|tmp))$/
+        return if path =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/  || path =~ /.*(~|\.(swp|bak|tmp))$/ || "./#{path}" =~ /^#{awe.site.sinatra_logdir}\/.*/
 
         puts "Triggered regeneration: #{path}"
         awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false )

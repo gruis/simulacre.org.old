@@ -1,7 +1,9 @@
 source :rubygems
 gem 'rb-fsevent'
 gem 'sinatra'
+gem 'async_sinatra'
 gem 'thin'
+gem 'mailfactory'
 
 # Until awestruct support __FILE__ in _ext/pipeline.rb we need to load
 # our own version
