@@ -17,10 +17,9 @@ awe.site.pages.each do |page|
     :url     => page.url,
     :summary => page.summary,
     :tags    => page.tags && page.tags.join(", "),
-    :date    => page.date,
+    :date    => page.date && page.date.strftime('%Y-%m-%d'),
     :content => page.content
   }
-  puts "indexed: #{page.url}"
 end # page
 
 
@@ -35,7 +34,6 @@ get "/search/?" do
 end
 
 get '/search/q/:query/?' do |q|
-  content_type :json
   results = {}
   settings.sindex.search_each(%Q{*: #{q} }) do |id, score|
     puts "id: #{id.inspect}; score: #{score.inspect}"
@@ -48,8 +46,13 @@ get '/search/q/:query/?' do |q|
                             :summary => page[:summary].force_encoding("UTF-8"),
                             :score   => score}
   end # id, score
-  JSON.dump({ :query => q, :results => results })
-end
+
+  # @todo render as JSON if request was JSON, HTML otherwise.
+  page         = settings.awe.load_page("_search.html.haml", :relative_path => '_search.html.haml')
+  page.query   = q
+  page.results = results
+  settings.awe.send(:render_page, page)
+end # /search/q/:query/?
 
 apost '/mail.json' do
   unless params['mootact']

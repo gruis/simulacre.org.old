@@ -1,0 +1,16 @@
+---
+layout: standard
+---
+
+%h2 Search Results for '#{page.query}'
+
+- page.results.each do |url, data|
+  .post.hentry
+    %h3.search-result
+      %a{:href => url, :title => data[:title] }= data[:title]
+    %small
+      = data[:date]
+  .entry
+    = data[:summary]
+    %p
+      %a{:href => url } Read More »
