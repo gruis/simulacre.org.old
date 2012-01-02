@@ -2,6 +2,3 @@ title: Simulacre.org
 subtitle: Javascript, Ruby and Japan
 google_analytics: 
 encoding: UTF-8
-ignore:
-- Gemfile
-- Gemfile.lock
