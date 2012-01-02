@@ -14,3 +14,262 @@ download:
     :url: http://github.com/simulacre/twidget/tarball/master
 ---
 %h2 Twidget
+%p
+  Twidget retrieves recent tweets from any user&#8217;s public timeline, marks them up and puts them into a container element.
+%p
+  %img{ :src => 'http://c5.simulacre.org/images/twidget/banner_200x100.png', :alt => 'Screenshot' }
+
+%h2 Demo
+:css
+        div.twidgets .spinner {
+          position              : absolute;
+          z-index               : 999;
+          opacity               : 0.4;
+          filter                : alpha(opacity=40);
+          -ms-filter            : progid             : DXImageTransform.Microsoft.Alpha(Opacity=40);
+          background-color      : black;
+          -moz-border-radius    : 5px;
+          -webkit-border-radius : 5px;
+          -border-radius        : 5px;
+        }
+        div.twidgets .spinner-msg {
+          text-align  : center;
+          font-weight : bold;
+        }
+
+        div.twidgets .spinner-img {
+          background : transparent url(http : //c5.simulacre.org/images/twidget/spinner.gif) no-repeat -10px 0px;
+          width      : 80px;
+          height     : 24px;
+          margin     : 0 auto;
+        }
+        .twidgets:after{ content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
+        div.twidget{
+            border                : 3px solid #ebebeb;
+            padding               : 0;
+            margin                : 10px;
+            -moz-border-radius    : 5px;
+            -webkit-border-radius : 5px;
+            -border-radius        : 5px;
+            width                 : 200px;
+            text-align            : center;
+            float                 : left;
+            position              : relative;
+        }
+        div.twidget div.border{
+            -moz-border-radius    : 5px;
+            -webkit-border-radius : 5px;
+            -border-radius        : 5px;
+            border                : 1px solid #8d8d8d;
+        }
+        div.twidget div.inner{
+            padding               : 5px;
+            -moz-border-radius    : 5px;
+            -webkit-border-radius : 5px;
+            -border-radius        : 5px;
+            border-top            : 2px solid #fff;
+            border-bottom         : 2px solid #fff;
+            background            : #f3f3f3 url(http : //c5.simulacre.org/images/wdgtbg.gif) repeat-x 0px 0px;
+        }
+        div.twidget h3{
+            margin     : 0 0 10px;
+            font-size  : 11pt;
+            text-align : left;
+        }
+        div.twidget a{ text-decoration: none; outline: 0; -moz-outline: 0; color: #975252; /* changed */ color:#dc2509; }
+        div.twidget a:hover{ position: relative; left:1px; }
+        div.twidget a:active{ top:1px;}
+        div.twidget img{ border:none;}
+        .tweets{
+          text-align : left;
+          font-size  : 8pt;
+        }
+        .tweets .posted, .tweets .when{
+          font-size   : 7pt;
+          white-space : nowrap;
+          margin      : 0.25em 0;
+        }
+:javascript
+  try {
+    window.addEvent("domready", function(){ 
+      $$('.twidget').each(function(twidget){
+          var tweets = twidget.getElement(".tweets");
+          new Twidget({ user       : tweets.get("id").split("-")[0], 
+                        element    : tweets, 
+                        onRequest  : function(){ twidget.spin(); }, 
+                        onComplete : function(){ twidget.unspin(); },
+                        onCancel   : function(){ twidget.unspin(); } });              
+      });
+    });            
+  } catch(e){
+    console.warn(e);
+  }
+- [{'Caleb Crane' => 'calebcrane', 'MooTools' => 'mootools', 'Valerio Proietti' => 'kamicane'}, {'news.yc Popular' => 'newsycombinator', 'Guillermo Rauch' => 'rauchg', 'David Walsh' => 'davidwalshblog' }].each do |set|
+  .twidgets
+    - set.each do |name, twid| 
+      %div{:id => "#{twid}-twidget", :class => 'twidget' }
+        .border
+          .center.inner
+            %h3= name
+            %p
+              %a{:href => "http://www.twitter.com/#{twid}"}
+                %img{:src => 'http://c5.simulacre.org/images/twitter0a.png'}
+            %div{:id => "#{twid}-tweets", :class => 'tweets'} &nbsp;
+
+%hr
+#readme.blob
+  .wikistyle
+    %h2 How to use
+    %ol
+      %li
+        %p Reference the Twidget module in your html
+        %pre
+          %code.html &lt;script type="text/javascript" charset="utf-8" src="js/Twidget.js"&gt;&lt;/script&gt;
+      %li
+        %p Instantiate a Twidget object once the domready event has fired
+        %pre
+          %code.js
+            window.addEvent("domready", function(){
+            new Twidget({ user: "mootools", count : "5" });
+            });
+    %h2 Syntax
+    %pre.js
+      %code.js
+        new Twidget([options]);
+
+    %h2 Arguments
+    %ol
+      %li options &#8211; (object, optional) the options described below:
+    %h2 Options
+    %ul
+      %li user      : (string)  The twitter username <em>defaults to</em> mootools
+      %li count     : (number) The maximum number of tweets to retrieve. <em>defaults to</em> 5
+      %li element   : (element) The container element in which to insert the tweets. <em>defaults to</em> $(&#8220;tweets&#8221;);
+    %h2 Events
+    %ul
+      %li request   : onRequest() &#8211; Fired when the request to twitter.com is executed
+      %li cancel    : onCancel() &#8211; Fired if the request to twitter.com fails
+      %li complete  : onComplete() &#8211; Fires after the tweets have been inserted into the page.
+    %h2 Default Markup
+    %ul
+      %li All @replies will be wrapped in anchor elements.
+      %li All #hashtags will be wrapped in anchor elements.
+      %li All http/https links will be wrapped in anchor elements.
+      %li Each tweet will be wrapped in a p element with a &#8220;tweet&#8221; class
+      %li The time/date, relative to now, of the tweet will be appended to the end of the tweet and wrapped in a  span element with a &#8220;when&#8221; class
+
+    %h3 Example Markup
+    %p.tweet
+      This is a 
+      %a{:href => 'http://search.twitter.com/search?q=%23tweet'} #tweet
+      that mentions
+      %a{:href => 'http://twitter.com/mootools'} @mootools
+      %a{:href => 'http://mootools.net'} http://mootools.net
+      %span.when 3 days ago
+    %code.html
+      :preserve
+        &lt;p class="tweet"&gt;
+          This is a &lt;a href="http://search.twitter.com/search?q=%23tweet"&gt;#tweet&lt;/a&gt; that mentions &lt;a href="http://twitter.com/mootools"&gt;@mootools&lt;/a&gt; &lt;a href="http://mootools.net"&gt;http://mootools.net&lt;/a&gt;.
+          &lt;span class="when"&gt;3 days ago&lt;/span&gt;
+        &lt;/p&gt;
+
+    %h3 Example Css
+    %p The CSS used to layout the widgets on this page is below.
+    %code.css
+      :preserve
+        div.twidgets .spinner {
+          position              : absolute;
+          z-index               : 999;
+          opacity               : 0.4;
+          filter                : alpha(opacity=40);
+          -ms-filter            : progid:DXImageTransform.Microsoft.Alpha(Opacity=40);
+          background-color      : black;
+          -moz-border-radius    : 5px;
+          -webkit-border-radius : 5px;
+          -border-radius        : 5px;
+        }
+        div.twidgets .spinner-msg {
+         text-align  : center;
+         font-weight : bold;
+        }
+        div.twidgets .spinner-img {
+         background : transparent url(http://c5.simulacre.org/images/twidget/spinner.gif) no-repeat -10px 0px;
+         width      : 80px;
+         height     : 24px;
+         margin     : 0 auto;
+        }
+        .twidgets:after{
+          content     : ".";
+          display     : block;
+          clear       : both;
+          visibility  : hidden;
+          line-height : 0;
+          height      : 0;
+        }
+        div.twidget{
+          border                : 3px solid #ebebeb;
+          padding               : 0;
+          margin                : 10px;
+          -moz-border-radius    : 5px;
+          -webkit-border-radius : 5px;
+          -border-radius        : 5px;
+          width                 : 200px;
+          text-align            : center;
+          float                 : left;
+          position              : relative;
+        }
+        div.twidget div.border{
+          -moz-border-radius    : 5px;
+          -webkit-border-radius : 5px;
+          -border-radius        : 5px;
+          border                : 1px solid #8d8d8d;
+        }
+        div.twidget div.inner{
+          padding               : 5px;
+          -moz-border-radius    : 5px;
+          -webkit-border-radius : 5px;
+          -border-radius        : 5px;
+          border-top            : 2px solid #fff;
+          border-bottom         : 2px solid #fff;
+          background            : #f3f3f3 url(http://c5.simulacre.org/images/wdgtbg.gif) repeat-x 0px 0px;
+        }
+        div.twidget h3{
+          margin     : 0 0 10px;
+          font-size  : 11pt;
+          text-align : left;
+        }
+        div.twidget a { 
+          text-decoration : none;
+          outline         : 0;
+          -moz-outline    : 0;
+          color           : #dc2509;
+        }
+        div.twidget a:hover {
+          position    : relative;
+          left        : 1px;
+        }
+        div.twidget a:active{ top:1px; }
+        div.twidget img{ border:none; }
+        .tweets{
+          text-align : left;
+          font-size  : 8pt;
+        }
+        .tweets .posted, .tweets .when{
+          font-size   : 7pt;
+          white-space : nowrap;
+          margin      : 0.25em 0;
+        }
+
+    %h2 Changing Links
+    %p
+      If the
+      %a{:href => 'http://mootools.net/forge/p/tweetify' } Tweetify
+      module is available Twidget will use it to construct the links, so change Tweetify if you have it installed.
+    %p If Tweetify is not available Twidget will use its own internal method <em>linkify</em>. In that case simply extend Twidget and write your own <em>linkify</em> method.
+
+    %h2 Changing Wrapper Markup
+    %p Twidget will wrap all links in a p element with a &#8220;tweet&#8221; class. The time/date, relative to now, when the tweet was created will be appended to the end of the tweet and wrapped in a span element with a &#8220;when&#8221; class.
+    %p The element described above are added by the internal <em>markup</em> method, so to change the markup, just extend Twidget and write your own <em>markup</em> method.
+
+    %h2 Known Issues
+    %a{:href => 'http://apiwiki.twitter.com/Twitter-REST-API-Method:-statuses-user_timeline?SearchFor=user_timeline&amp;sp=1'} Retweets not included

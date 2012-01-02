@@ -2,10 +2,22 @@ require 'json'
 require 'eventmachine'
 require "mailfactory"
 require 'sinatra/async'
+require "ferret"
 
 register Sinatra::Async
 
 set :mailer, YAML.load_file(".mailer.yml") if File.exists?(".mailer.yml")
+
+#set :sindex, Ferret::Index::Index.new(:path => settings.root + "/ferret.idx")
+set :sindex, Ferret::Index::Index.new(:path => settings.root + "/ferret.idx")
+awe.site.pages.each do |page|
+  next unless File.extname(page.output_path) == ".html"
+  puts "indexing #{page.output_path} (#{page.url})"
+  puts "  title: #{page.title} @#{page.date}; tags: #{page.tags} "
+  puts page.content if page.title
+end # page
+
+
 
 not_found do
   IO.read(settings.public_folder + '/404.html')

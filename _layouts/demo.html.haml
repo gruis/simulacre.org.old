@@ -25,4 +25,7 @@ layout: base
   = partial( 'sidebar.html.haml' )
 
 #right-column
-  = content
+  -# add tag-[TAG] classes
+  .post.hentry
+    .entry
+      = content

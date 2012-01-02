@@ -4,6 +4,7 @@ gem 'sinatra'
 gem 'async_sinatra'
 gem 'thin'
 gem 'mailfactory'
+gem 'sdsykes-ferret'
 
 # Until awestruct support __FILE__ in _ext/pipeline.rb we need to load
 # our own version

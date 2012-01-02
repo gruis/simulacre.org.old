@@ -35,12 +35,14 @@ class Awestruct::Sinatra < Sinatra::Base
   File.open(".htaccess", "w") { |f| f.puts htaccess.join("\n") }
   awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false )
 
-  awe.site.sinatra_logdir ||= File.join(awe.site.sinatra_root, 'log')
-  FileUtils.mkdir_p(awe.site.sinatra_logdir)
-  log      = File.new(File.join(awe.site.sinatra_logdir, "sinatra.log"), "a+") 
-  log.sync = true
-  $stdout.reopen(log)
-  $stderr.reopen(log)
+  if settings.environment != :development
+    awe.site.sinatra_logdir ||= File.join(awe.site.sinatra_root, 'log')
+    FileUtils.mkdir_p(awe.site.sinatra_logdir)
+    log      = File.new(File.join(awe.site.sinatra_logdir, "sinatra.log"), "a+") 
+    log.sync = true
+    $stdout.reopen(log)
+    $stderr.reopen(log)
+  end # settings.environment == :development
 
 
   get '/?' do
@@ -60,7 +62,7 @@ class Awestruct::Sinatra < Sinatra::Base
         return if base.length < awc.input_dir.length or awc.input_dir != base[0..awc.input_dir.length]
         path = base + relative
         path = path[awc.input_dir.length..path.length]
-        return if path =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/  || path =~ /.*(~|\.(swp|bak|tmp))$/ || "./#{path}" =~ /^#{awe.site.sinatra_logdir}\/.*/
+        return if path =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/  || path =~ /.*(~|\.(swp|bak|tmp))$/ || awc.ignore.include?(path)
 
         puts "Triggered regeneration: #{path}"
         awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false )
