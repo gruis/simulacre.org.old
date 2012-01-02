@@ -35,7 +35,7 @@
             $("notify").fade("out");
             new MooTact( {
               title 	: 'MooTact Contact Form',
-               url		: "/send.json.php",
+               url		: "/mail.json",
                onSuccess: function(){
                   (function(){
                     $("notify").set('html', 'E-mail sent ... Thank you!' ).fade("in");
@@ -105,7 +105,7 @@
         %p= site.subtitle
 
       %form#searchform{:action => "/search", :method => "get"}
-        %input#s{:name => "s", :onBlur => "if(this.value == '') this.value='Search'", :onFocus => "if(this.value == 'Search') this.value=''", :type => "text", :value => "Search"}
+        %input#s{:name => "q", :onBlur => "if(this.value == '') this.value='Search'", :onFocus => "if(this.value == 'Search') this.value=''", :type => "text", :value => "Search"}
       %p#notify
 
     #content.clearfix
