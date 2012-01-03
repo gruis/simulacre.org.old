@@ -113,7 +113,7 @@ module Simulacre
             raise NotFoundError.new(path) unless File.exists?(path)
 
             partial = site.engine.load_site_page( path )
-            partial.categories = site.categories
+            partial.categories = site.categories.sort {|a,b| a.name <=> b.name }
             site.category_list = partial.content
           end # category_list(style_class = nil)
         end # module::CategoryLinker

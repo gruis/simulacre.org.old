@@ -2,7 +2,7 @@
 title: List of 500+ Look-Alike Kanji
 summary: From the very start KanjiTastic has given you a quick way to retrieve kanji that look similar to the one that you are studying. All you have to do is click on the &#8220;Related Cards&#8221; link at the top of the card then select Similar Kanji.
 categories:
-- kanjitastic
+- KanjiTastic
 tags:
 - japanese
 - kanjitastic
