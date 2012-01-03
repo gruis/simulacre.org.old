@@ -8,7 +8,7 @@ layout: base
         #download.center.inner
           %h2
             Download #{page.download[:name]}
-          %a{:href => "#{page.download[:tgz][:url]}"}
+          %a{:href => page.download.fetch(:tgz, page.download[:zip])[:url] }
             %img{:src => "http://c5.simulacre.org/images/download0a.png"}
           - if page.download[:version]
             %p.small-print= page.download[:version]
@@ -17,15 +17,29 @@ layout: base
               zip 
               - if page.download[:zip][:size]
                 (#{page.download[:zip][:size]})
-            |
-            %a{:href => "#{page.download[:tgz][:url]}"}
-              tgz
-              - if page.download[:tgz][:size]
-                (#{page.download[:tgz][:size]})
+            - if page.download.include?(:tgz)
+              |
+              %a{:href => "#{page.download[:tgz][:url]}"}
+                tgz
+                - if page.download[:tgz][:size]
+                  (#{page.download[:tgz][:size]})
   = partial( 'sidebar.html.haml' )
 
 #right-column
   -# add tag-[TAG] classes
   .post.hentry
     .entry
-      = content
+      %h2= page.title
+      %p.postmetadata
+        Posted:
+        - unless page.date.nil?
+          = page.date.strftime('%Y-%m-%d')
+        in
+        -#= page.category_links( :delimiter => " » ")
+
+      %p.postmetadata
+        Tags:
+        = page.tag_links
+
+      ~ content
+      = page.disqus_comments
