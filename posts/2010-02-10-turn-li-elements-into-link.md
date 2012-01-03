@@ -9,6 +9,7 @@ tags:
 - MooTools
 - snippets
 - UI
+summary: 'Horizontal menus of links [look great](http://www.cssdrive.com/index.php/menudesigns/category/C20/ "horizontal menus") and save space. Building them from UL elements is good practice and makes for [easy CSS styline](http://www.alistapart.com/articles/horizdropdowns/). The LI elements will often contain a link causing them to behave like buttons to trigger a page load.'
 ---
 Horizontal menus of links [look great](http://www.cssdrive.com/index.php/menudesigns/category/C20/ "horizontal menus") and save space. Building them from UL elements is good practice and makes for [easy CSS styline](http://www.alistapart.com/articles/horizdropdowns/). The LI elements will often contain a link causing them to behave like buttons to trigger a page load.
 
