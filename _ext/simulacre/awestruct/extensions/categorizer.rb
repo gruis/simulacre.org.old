@@ -9,7 +9,6 @@ module Simulacre
           @categories      = {}
           @categorized_items_property = categoriezed_items_property
           @input_path      = input_path
-          #@output_path     = output_path
           @pagination_opts = pagination_opts
         end
 
@@ -36,7 +35,7 @@ module Simulacre
                                                                              @input_path,
                                                                              { :remove_input  => false,
                                                                                :output_prefix => File.join( "/category/", category.path(&:name).join('/').downcase.gsub(/\s/, "-")),
-                                                                               :collection    => category.pages.empty? ? category.all_pages : category.pages,
+                                                                               :collection    => category.all_pages,
                                                                                :front_matter  => {:category => category}
                                                                              }.merge( @pagination_opts )
                                                                           ).execute(site)
@@ -94,7 +93,7 @@ module Simulacre
           # The pages for this category and all its children.
           def all_pages
             return pages if children.empty?
-            children.map{|c| c.all_pages }.flatten
+            children.map{|c| c.all_pages }.flatten | pages
           end # all_pages
         end # class::Category
 
@@ -109,7 +108,7 @@ module Simulacre
           end
 
           def category_list(path = 'category_list.html.haml')
-            return site.category_list unless site.category_list.nil?
+            # return site.category_list unless site.category_list.nil?
             path = File.join('_partials', path)
             raise NotFoundError.new(path) unless File.exists?(path)
 

@@ -1,12 +1,12 @@
 ---
 title: Valentine Choco
 summary: "Yoshiko completely surprised me this Valentine’s Day with an insane Zoology Chocolate Chimpanzee and two cans of chocolate laced beer. Now I have to find a way to top her for [White Day](http://en.wikipedia.org/wiki/White_Day)."
-tags: 
+tags:
 - choco
 - chocolate
 - valentines day
 - zoology
-categories: 
+categories:
 - Japan
 ---
 <a href="http://farm3.static.flickr.com/4017/4356459266_43064a732f.jpg">

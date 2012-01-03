@@ -8,8 +8,16 @@ layout: standard
     .post.hentry
       %h2
         %a{:href=>post.url}= post.title
-      %small
+      %p.postmetadata
+        Posted
         = post.date.strftime('%Y-%m-%d')
+        in
+        = post.category_links(:delimiter => " » ") 
+
+      %p.postmetadata
+        Tags:
+        = post.tag_links
+
       .entry
         - if post.summary
           = post.summary
@@ -18,9 +26,4 @@ layout: standard
         -else
           = post.content
 
-      %p.postmetadata
-        Tags:
-        = post.tag_links
-        %br
-        Posted in:
-        = post.category_links(:delimiter => " » ")
+

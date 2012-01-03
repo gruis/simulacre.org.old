@@ -36,8 +36,6 @@ end
 get '/search/q/:query/?' do |q|
   results = {}
   settings.sindex.search_each(%Q{*: #{q} }) do |id, score|
-    puts "id: #{id.inspect}; score: #{score.inspect}"
-    puts "url: #{settings.sindex[id][:url]}"
     page = settings.sindex[id]
     results[page[:url]] = { :url     => page[:url],
                             :title   => page[:title],
