@@ -2,6 +2,7 @@
 title: Track Downloads and Exits Using Google Analytics and MooTools
 categories:
 - MooTools
+- Modules
 tags: 
 - google analytics
 - modules

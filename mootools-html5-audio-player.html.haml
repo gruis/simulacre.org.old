@@ -1,0 +1,103 @@
+---
+layout: demo
+summary: An HTML5 Audio player that works in Firefox, Safari and Chrome.
+title: MooTools HTML5 Audio Player -  Alpha Demo
+date: 2009-12-25 
+demo:
+  :title: MooTools HTML5 Audio Player
+  :subtitle: Alpha Demo
+download:
+  :name: mtAudioPlayer
+  :version: v0.0.3
+  :zip:
+    :size: 62.3K
+    :url: http://github.com/simulacre/mtAudioPlayer/zipball/master 
+  :tgz:
+    :size: 57.3K
+    :url: http://github.com/simulacre/mtAudioPlayer/tarball/master
+categories: 
+- MooTools
+- Modules
+tags: 
+- audio player
+- html5
+- html5 audio player
+- MooTools
+---
+%script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/js/mootools/cnet-debug.js'}
+%script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/mtap/js/AudioCheck-nc.js'}
+%script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/mtap/js/GetterSetter-nc.js'}
+%script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/mtap/js/mtAPTemplate-nc.js'}
+
+:javascript
+  try{
+    function addTrack(name){
+      var f = name.substr(name.lastIndexOf(".") + 1)
+      if(!soundCheck.check(f)){
+        var s = soundCheck.determineFormat();
+        $('notify').set("html", "Your browser does not currently support " + f.toUpperCase() + " audio files. Try adding an " + s.toUpperCase() + " file.").highlight();
+        return;
+      } 
+      try{
+        mooTunes.get("playlist").addTrack(name,true); 
+        mooTunes.get("ui").grow();
+        mooTunes.get("player").get("track",mooTunes.get("playlist").tracks.getKeys()[mooTunes.get("playlist").tracks.getKeys().length - 1]).elem.highlight();      
+      } catch(e) {
+        $('notify').set("html", "Unable to add track").highlight();
+      }
+    }
+
+    var mooTunes, playlist, soundCheck, burl;
+    burl = document.location.protocol + "//" + document.location.host
+    if(document.location.port != ""){
+      burl += ":" + document.location.port 
+    }
+    playlist = [ {artist : "Kevin MacLeod", mp3: burl + "/music/Truth of the Legend.mp3", ogg: burl + "/music/Truth of the Legend.ogg"}, 
+                 {artist : "Kevin MacLeod", mp3: burl + "/music/Wah Game Loop.mp3",       ogg: burl + "/music/Wah Game Loop.ogg"}, 
+               ];        
+    window.addEvent("domready", function(){
+      soundCheck = new AudioCheck();
+      if(!soundCheck.check()){
+        $("notify").set("html", "Your browser does not support HTML5 audio").highlight();
+        return;
+      }
+      $("skin") && $("skin").set("value","");
+      mooTunes = new mtAPTemplate.mooTunes({ suffix  : "-nc", "js-dir" : "http://c5.simulacre.org/mtap/js/", "css-dir" : "http://c5.simulacre.org/mtap/css/",
+                                             onReady : function(){ 
+                                                 dbug.log("template ready"); 
+                                                 $$('label[for="add"]')[0] && $$('label[for="add"]')[0].set("html", "Add " + soundCheck.determineFormat().toUpperCase());
+                                                 dbug.log("injecting");
+                                                 $(mooTunes).inject($('demo'),"top");
+                                                 dbug.log("injected");
+                                                 mooTunes.load("playlist",{ tracks : playlist })
+                                                         .load("player",{ auto : true, volume : 60, repeat : false })
+                                                         .load("ui", {  shrinkable : true })
+                                                         .inject("ui")
+                                                         .inject("playlist");
+                                                 dbug.log("fully loaded");
+                                             } 
+                                           }).load("assets");
+    });            
+  }catch(e){
+    console.warn(e);
+  }
+
+#demo{:style => 'margin: 20px 0;'} &nbsp;
+%form#mod{:onSubmit => %q{addTrack($('add').get('value')); return false;}}
+  .form-row
+    %label{:for => 'theme'} Theme
+    %input.noedit{:name => 'theme', :type => 'text', :value => 'mooTunes' }
+  .form-row
+    %label{:for => 'skin'} Skin
+    %select#skin{:name => 'skin', :onChange => %q{mooTunes.changeSkin(this.get('value'));}}
+      %option{:value => ""} Standard
+      %br
+      %option{:value => 'blue'} Blue
+      %br
+  .form-row
+    %label{:for => 'add' } Add
+    %input.add{:type => 'text', :name => 'add', :value => 'Enter a URL', :onClick => %q{$(this).set('value','');}, :onChange=>%q{addTrack($(this).get('value')); return false;} }
+    %p.example e.g.,http://chkpt.zdnet.com/chkpt/mp3-greatalbums-external-1028/image.com.com/mp3/audio/podcasts/mp3-greatalbums_012908_djdesign.mp3
+  .small-print
+    Sample Music
+    %a{:href => 'http://incompetech.com/m/c/royalty-free/index.html'} Kevin MacLeod

@@ -15,9 +15,9 @@ tags:
 - nihon university
 - phrases
 - school of medicine
-
 summary: 'The [MediTastic MP3s](http://meditastic.yukigaya.simulacre.org/meditasticmp3s.zip) are a collection of 190+ medical english words and phrases that can be listened to on any MP3 player.'
 ---
+
 The [MediTastic MP3s](http://meditastic.yukigaya.simulacre.org/meditasticmp3s.zip) are a collection of 190+ medical english words and phrases that can be listened to on any MP3 player.
 
 They are organized as audio flashcards. The meaning will be spoken then five seconds later the actual word or phrase will be spoken.

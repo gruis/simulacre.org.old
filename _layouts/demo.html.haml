@@ -31,11 +31,13 @@ layout: base
     .entry
       %h2= page.title
       %p.postmetadata
-        Posted:
-        - unless page.date.nil?
-          = page.date.strftime('%Y-%m-%d')
-        in
-        -#= page.category_links( :delimiter => " » ")
+        - if page.date || page.categories
+          Posted:
+          - unless page.date.nil?
+            = page.date.strftime('%Y-%m-%d')
+          - if page.categories
+            in
+            = page.category_links( :delimiter => " » ")
 
       %p.postmetadata
         Tags:

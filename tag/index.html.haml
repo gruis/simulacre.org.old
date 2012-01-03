@@ -3,13 +3,24 @@ layout: standard
 ---
 %h1 
   Posts Tagged '#{page.tag}'
-- if page.posts
-  - page.posts.each do |post|
+- if page.pages
+  - page.pages.each do |post|
     .post.hentry
       %h2
         %a{:href=>post.url}= post.title
-      %small
-        = post.date.strftime('%Y-%m-%d')
+      - if post.date && post.categories
+        %p.postmetadata
+          Posted
+          - if post.date
+            = post.date.strftime('%Y-%m-%d')
+          - if post.categories
+            in
+            = post.category_links(:delimiter => " » ") 
+
+      %p.postmetadata
+        Tags:
+        = post.tag_links
+
       .entry
         - if post.summary
           = post.summary
@@ -17,10 +28,4 @@ layout: standard
             %a{:href => post.url} Read More »
         -else
           = post.content
-
-      %p.postmetadata
-        Tags:
-        = post.tag_links
-        %br
-        Posted in:
-        = post.category_links( :delimiter => " » ")
+    %hr

@@ -13,12 +13,12 @@ module Simulacre
         end
 
         def execute(site)
-          all = site.send( @categorized_items_property )
+          all = site.send( @categorized_items_property ).select { |p| p.categories }
           return if ( all.nil? || all.empty? )
 
           tails = []
           all.each do |page|
-            next unless page.categories
+            page.categories = page.categories.split(",").map(&:strip) if page.categories.is_a?(String)
             last        = nil
             first, rest = page.categories[0], page.categories[1..-1]
             rest.inject( (categories[first] ||= Category.new(first)) ) { |head, cat| last = head.add(cat) }
