@@ -1,4 +1,5 @@
 require "simulacre"
+require "disqus"
 
 Awestruct::Extensions::Pipeline.new do
   extension Simulacre::Awestruct::Extensions::Posts.new('/posts')
@@ -6,6 +7,8 @@ Awestruct::Extensions::Pipeline.new do
   extension Simulacre::Awestruct::Extensions::Categorizer.new(:pages, '/category/index', :per_page=>10 )
   extension Awestruct::Extensions::Indexifier.new
   extension Simulacre::Awestruct::Extensions::Archive.new
+  extension Awestruct::Extensions::Disqus.new
+  #extension Awestruct::Extensions::Atomizer.new( :posts, '/feed' )
 
   helper Awestruct::Extensions::Partial
   helper Awestruct::Extensions::Tagger::TagLinker

@@ -2,3 +2,5 @@ title: Simulacre.org
 subtitle: Javascript, Ruby and Japan
 google_analytics: 
 encoding: UTF-8
+disqus: simulacre
+disqus_developer: true
