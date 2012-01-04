@@ -5,8 +5,10 @@ disqus: simulacre
 google_analytics: 
 profiles:
   development:
+    bind: '0.0.0.0'
     base_url: http://localhost/
     disqus_developer: true
   production:
+    bind: '127.0.0.1'
     base_url: http://www.simulacre.org/
     google_analytics: UA-1727701-12
