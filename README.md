@@ -11,5 +11,7 @@
 
 - Start the Backend
       touch /etc/production
+      gem install bundler
+      bundle install
       ./config.ru & 
       disown
