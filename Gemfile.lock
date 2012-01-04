@@ -1,5 +1,6 @@
-PATH
-  remote: /Users/caleb/src/awestruct
+GIT
+  remote: git://github.com/simulacre/awestruct.git
+  revision: 92a87b050e36688f4ea98241690043d672e7e5b9
   specs:
     awestruct (0.2.10)
       RedCloth (<= 4.2.5)

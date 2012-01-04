@@ -12,6 +12,7 @@ categories:
 - Infrastructure
 - Disaster Recovery
 ---
+
 [Back In Time](http://backintime.le-web.org/) is a great GUI that reproduces the most important OSX Time Machine features: simple graphical configuration and snapshot backups. The current version (0.9.26) is, unfortunately, broken if you want to back up an entire installation. There is a fix, but the developer has not released it yet. Applying the fix yourself is, fortunately, very easy.
 
 Follow the directions below to install Back In Time for Ubuntu and backup your entire drive.
