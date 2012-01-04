@@ -3,7 +3,7 @@
 
 set -e 
 
-git clone https://simulacre@github.com/simulacre/simulacre.org.git
+git clone git://github.com/simulacre/simulacre.org.git
 cd simulacre.org
 git config receive.denyCurrentBranch ignore
 cat > .git/hooks/post-receive <<EOR
