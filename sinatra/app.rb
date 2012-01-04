@@ -7,26 +7,33 @@ require "ferret"
 register Sinatra::Async
 
 set :mailer, YAML.load_file(".mailer.yml") if File.exists?(".mailer.yml")
-
-#set :sindex, Ferret::Index::Index.new(:path => settings.root + "/ferret.idx")
-set :sindex, Ferret::Index::Index.new
-awe.site.pages.each do |page|
-  next unless File.extname(page.output_path) == ".html" && (page.title || page.demo)
-  settings.sindex << {
-    :title   => page.title || "#{page.demo[:title]} - #{page.demo[:subtitle]}",
-    :url     => page.url,
-    :summary => page.summary,
-    :tags    => page.tags && page.tags.join(", "),
-    :date    => page.date && page.date.strftime('%Y-%m-%d'),
-    :content => page.content
-  }
-end # page
-
-
+set :sindex, Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
 
 not_found do
   IO.read(settings.public_folder + '/404.html')
 end
+
+get "/reindex/:key/?" do |key|
+  halt(402, "unauthorized") unless key && key == IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1]
+  logger.info("updating search index")
+  settings.awe.send(:load_pages)
+  settings.awe.send(:set_urls, awe.site.pages)
+  settings.sindex =  Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
+
+  settings.awe.site.pages.each do |page|
+    next unless File.extname(page.output_path) == ".html" && (page.title || page.demo)
+    settings.sindex << {
+      :title   => page.title || "#{page.demo[:title]} - #{page.demo[:subtitle]}",
+      :url     => page.url,
+      :summary => page.summary,
+      :tags    => page.tags && page.tags.join(", "),
+      :date    => page.date && page.date.strftime('%Y-%m-%d'),
+      :content => page.content
+    }
+  end # page
+  logger.info("indexed #{settings.awe.site.pages.count} pages")
+  "indexed #{settings.awe.site.pages.count} pages"
+end # reindex
 
 get "/search/?" do
   raise Sinatra::NotFound unless params[:q]
