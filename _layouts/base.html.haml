@@ -55,7 +55,7 @@
     #meta-nav
       %a#meta-logo{:href => "http://www.simulacre.org/"}
       %ul.horiz-nav
-        %li.showing
+        %li{:class => %w{/mootools-html5-audio-player/ /mootact/ /track-downloads-and-exits-using-google-analytics-and-mootools/ /meditastic-mp3s/}.include?(page.url) || 'showing' }
           %a{:href => "/"} Blog
           %p.desc
             %a{:href => "/"} Javascript & Japan
@@ -67,22 +67,22 @@
           %a{:href => "http://www.kanjitastic.com/"} KanjiTastic
           %p.desc
             %a{:href => "http://www.kanjitastic.com/"} SRS Japanese Flashcards
-        %li
+        %li{:class => page.url == '/mootools-html5-audio-player/' && 'showing' }
           %a{:href => "/mootools-html5-audio-player/"} mtAudioPlayer
           %p.desc
             %a{:href => "/mootools-html5-audio-player/"} HTML5 Audio Player
-        %li
+        %li{:class => page.url == '/mootact/' && 'showing' }
           %a{:href => "/mootact"} MooTact
           %p.desc
             %a{:href => "/mootact"} Lightbox Contact Form
-        %li
+        %li{:class => page.url == '/meditastic-mp3s/' && 'showing' }
           %a{:href => "/meditastic-mp3s/"} MediTastic
           %p.desc
             %a{:href => "/meditastic-mp3s/"} Medical Terminology MP3s
-        %li
-          %a{:href => "http://mootools.net/forge/p/exitpoll"} ExitPoll
+        %li{:class => page.url == '/track-downloads-and-exits-using-google-analytics-and-mootools/' && 'showing' }
+          %a{:href => "/track-downloads-and-exits-using-google-analytics-and-mootools/"} ExitPoll
           %p.desc
-            %a{:href => "http://mootools.net/forge/p/exitpoll"} Website Exit Tracking
+            %a{:href => "/track-downloads-and-exits-using-google-analytics-and-mootools/"} Website Exit Tracking
         %li
           %a{:href => "http://impel.simulacre.org"} Impel
           %p.desc
