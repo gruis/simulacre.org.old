@@ -82,6 +82,10 @@ tags:
     console.warn(e);
   }
 
+%p
+  The source is on
+  %a{:href => "https://github.com/simulacre/mtAudioPlayer/"} Github
+
 #demo{:style => 'margin: 20px 0;'} &nbsp;
 %form#mod{:onSubmit => %q{addTrack($('add').get('value')); return false;}}
   .form-row
@@ -101,3 +105,4 @@ tags:
   .small-print
     Sample Music
     %a{:href => 'http://incompetech.com/m/c/royalty-free/index.html'} Kevin MacLeod
+
