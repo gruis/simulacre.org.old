@@ -1,4 +1,5 @@
 #!/usr/bin/env ruby
+# encoding: UTF-8
 require "bundler/setup"
 require "awestruct"
 require 'sinatra/base'
@@ -23,6 +24,8 @@ class Awestruct::Sinatra < Sinatra::Base
 
   htaccess = IO.read('.htaccess').each_line.map(&:strip)
   ['RewriteEngine on', 
+   'RewriteCond %{REQUEST_URI} !=/feed/',
+   'RewriteCond %{REQUEST_URI} !=/feed/index.html',
    'RewriteCond %{REQUEST_FILENAME} !-f', 
    'RewriteCond %{REQUEST_FILENAME}/index.html !-f', 
    'RewriteRule ^(.*)$ http://localhost:4242/$1 [P,L]']
