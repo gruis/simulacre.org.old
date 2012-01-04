@@ -14,10 +14,9 @@ not_found do
 end
 
 get "/reindex/:key/?" do |key|
-  halt(402, "unauthorized") unless key && key == IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1]
+  halt(402, "unauthorized") unless settings.environment == :development || (key && key == IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1])
   logger.info("updating search index")
-  settings.awe.send(:load_pages)
-  settings.awe.send(:set_urls, awe.site.pages)
+  awe.generate(settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false)
   settings.sindex =  Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
 
   settings.awe.site.pages.each do |page|
