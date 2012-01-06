@@ -7,8 +7,5 @@ gem 'mailfactory'
 gem 'sdsykes-ferret'
 gem 'disqus'
 
-# Until awestruct support __FILE__ in _ext/pipeline.rb we need to load
-# our own version
 gem 'awestruct', :git => 'git://github.com/simulacre/awestruct.git'
-#gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"
-
+# gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"

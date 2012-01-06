@@ -1,9 +1,7 @@
-GIT
-  remote: git://github.com/simulacre/awestruct.git
-  revision: 92a87b050e36688f4ea98241690043d672e7e5b9
+PATH
+  remote: /Users/caleb/src/awestruct
   specs:
-    awestruct (0.2.10)
-      RedCloth (<= 4.2.5)
+    awestruct (0.2.11)
       compass (>= 0.11.5)
       compass-960-plugin (<= 0.10.4)
       fssm (= 0.2.7)
@@ -11,13 +9,13 @@ GIT
       hashery (= 1.4.0)
       hpricot
       org-ruby (= 0.5.3)
-      rdiscount (= 1.6.8)
+      redcarpet
       sass (<= 3.1.0)
+      tilt
 
 GEM
   remote: http://rubygems.org/
   specs:
-    RedCloth (4.2.5)
     async_sinatra (0.5.0)
       rack (>= 1.2.1)
       sinatra (>= 1.0)
@@ -47,7 +45,7 @@ GEM
       rack
     rake (0.9.2.2)
     rb-fsevent (0.4.3.1)
-    rdiscount (1.6.8)
+    redcarpet (2.0.1)
     rubypants (0.2.0)
     sass (3.1.0)
     sdsykes-ferret (0.11.6.19)

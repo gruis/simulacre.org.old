@@ -14,7 +14,7 @@ module Simulacre
         def execute(site)
           super(site).each do |page|
             page.layout = 'post' unless page.layout
-            page.summary = RDiscount.new( page.summary ).to_html if page.summary
+            page.summary = Tilt.new("summary.md") { page.summary }.render if page.summary
             next unless page.slug
             page.slug.downcase!
             page.output_path = "/#{page.slug}.html"

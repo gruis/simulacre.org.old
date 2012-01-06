@@ -3,7 +3,7 @@ layout: standard
 ---
 .posts.recent
   %h2 Most Recent Post
-  - site.posts.first.tap do |post|
+  - site.posts.first && site.posts.first.tap do |post|
     %h3{:style => "margin-top:0;"}
       %a{:href => post.url}= post.title
     .entry
