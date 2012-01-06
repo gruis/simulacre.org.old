@@ -39,6 +39,9 @@ class Awestruct::Sinatra < Sinatra::Base
   htaccess = IO.read('.htaccess').each_line.map(&:strip)
   ohta     = htaccess.clone
   ['RewriteEngine on', 
+   'RewriteRule wordpress/photos/album/(.*) /ee/i/simIndigo/album/$1 [R,L]',
+   'RewriteRule wordpress/photos/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]',
+   'RewriteRule wordpress/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]',
    'RewriteCond %{REQUEST_URI} !=/feed/',
    'RewriteCond %{REQUEST_URI} !=/feed/index.html',
    'RewriteCond %{REQUEST_FILENAME} !-f', 

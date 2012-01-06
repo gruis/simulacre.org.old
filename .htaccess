@@ -1,11 +1,12 @@
 RewriteEngine on
+RewriteRule wordpress/photos/album/(.*) /ee/i/simIndigo/album/$1 [R,L]
+RewriteRule wodpress/photos/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]
+RewriteRule wodpress/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]
 RewriteCond %{REQUEST_URI} !=/feed/
 RewriteCond %{REQUEST_URI} !=/feed/index.html
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME}/index.html !-f
 RewriteRule ^(.*)$ http://localhost:4242/$1 [P,L]
-
-RewriteRule wordpress/photos/album/(.*) /ee/i/simIndigo/album/$1 [R,L]
 
 AddHandler php5-script .php
 DirectoryIndex index.html index.xml index.php
