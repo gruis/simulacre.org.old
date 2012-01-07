@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+bundle exec thin -R config.ru -d -l sinatra/log/thin.log  start
