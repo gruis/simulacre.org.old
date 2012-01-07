@@ -91,4 +91,5 @@ class Awestruct::Sinatra < Sinatra::Base
 
 end # class::Awestruct::Sinatra < Sinatra::Base
 
+
 $0 == __FILE__ ? Awestruct::Sinatra.run! : (run Awestruct::Sinatra)
