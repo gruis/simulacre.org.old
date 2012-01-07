@@ -16,7 +16,7 @@ From the very start KanjiTastic has given you a quick way to retrieve kanji that
 
 That's all well and good, but not all kanji have a look-alike kanji connected with them yet. To make it easier to find look-alike kanji you now have access to our [list of similar kanji](http://www.kanjitastic.com/en/kanji/list/set/Similar_Kanji).
 
-<img style="margin: 0px 20px; float: right;" src="http://www.kanjitastic.com/images/blog/simKanji0c.gif" alt="List of Look-Alike and Similar Kanji" width="221" height="170" />
+<img style="margin: -1.5em 20px 0; float: right;" src="http://www.kanjitastic.com/images/blog/simKanji0c.gif" alt="List of Look-Alike and Similar Kanji" width="221" height="170" />
 
 We're up to 500+ plus kanji in the [similar kanji list](http://www.kanjitastic.com/en/kanji/list/set/Similar_Kanji), so it's paginated and has a search box. You can enter either a page number or a kanji in the search box to quickly navigate to either [a particular page](http://www.kanjitastic.com/en/kanji/list/set/Similar_Kanji/page/5), or [a particular kanji](http://www.kanjitastic.com/en/kanji/list/set/Similar_Kanji/index/%E6%8A%BC).
 

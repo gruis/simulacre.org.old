@@ -2,9 +2,9 @@
 layout: standard
 ---
 - if page.category.nil?
-  %h1 A category name is required
+  %h2 A category name is required
 - else
-  %h1 
+  %h2 
     Archive for the ‘#{page.category.name}’ Category
     - if page.category.children?
       and Its Children
@@ -33,4 +33,3 @@ layout: standard
               %a{:href => post.url} Read More »
           -else
             = post.content
-      %hr

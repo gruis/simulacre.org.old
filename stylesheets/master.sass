@@ -380,6 +380,16 @@ div
     &.gitLighter li, &.mochaLighter li, &.panicLighter li, &.tuttiLighter li, &.twilightLighter li, &.standardLighter li
       margin-top: 0
 
+  pre > pre.gitLighter
+    margin: 0
+    padding: 0.5em
+
+  p + pre > pre.gitLighter
+    margin-top: -1em
+
+  #disqus_thread
+    margin-top: 4em
+
 #searchform
   position: absolute
   right: 0
@@ -400,7 +410,7 @@ div
   h2
     font-size: 11pt
     text-align: left
-    margin-bottom: 0
+    margin: 0.75em 0 0
   li
     list-style: none
     ul
@@ -413,23 +423,31 @@ article
   margin-top: 2em
   padding-bottom: 1em
   border-bottom: 1px solid #CFDBE1
-  h1, h2, h3
-    margin-bottom: .2em
 
-.page
-  h3, h2
-    margin-bottom: .2em
-
-.post h3, .page h3, article h3
-  margin-top: 4em
-
-.post, article
-  h2 a, h3 a
-    color: #005F90
-
-.page
+.post, .page, article
+  h2, h3, h4
+    margin-bottom: 0.5em
+  h2
+    margin-top: 2.5em
+  h2:first-child
+    margin: 0
+  h3
+    margin-top: 2em
+  h4, h5, h6
+    margin-top: 1.5em
+  p > img
+    margin: 0.5em 0 2em
   h3 a, h2 a
     color: #005F90
+
+.post.hentry
+  padding-top: 3em
+  border-top: 2px #F3F3F3 solid
+.post.hentry:first-child, h2:first-child + .post.hentry
+  padding-top: 0
+  border-top: none
+h2:first-child + .post.hentry
+  margin-top: 2em
 
 p.postmetadata
   font-size: 8pt

@@ -136,19 +136,16 @@ tags:
     %ol
       %li
         %p Reference the Twidget module in your html
-        %pre
-          %code.html &lt;script type="text/javascript" charset="utf-8" src="js/Twidget.js"&gt;&lt;/script&gt;
+        %code.html &lt;script type="text/javascript" charset="utf-8" src="js/Twidget.js"&gt;&lt;/script&gt;
       %li
         %p Instantiate a Twidget object once the domready event has fired
-        %pre
-          %code.js
-            window.addEvent("domready", function(){
-            new Twidget({ user: "mootools", count : "5" });
-            });
+        %code.js
+          window.addEvent("domready", function(){
+          new Twidget({ user: "mootools", count : "5" });
+          });
     %h2 Syntax
-    %pre.js
-      %code.js
-        new Twidget([options]);
+    %code.js
+      new Twidget([options]);
 
     %h2 Arguments
     %ol
