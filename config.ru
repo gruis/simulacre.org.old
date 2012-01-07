@@ -21,6 +21,7 @@ class Awestruct::Sinatra < Sinatra::Base
   disable :run
 
   set :awe, awe
+  set :server, %w{ rainbows thin webrick }
   set :bind, awe.site.bind || '127.0.0.1'
   set :port, awe.site.port || 4242
   set :root,  (awe.site.sinatra_root ||= File.join(File.dirname(__FILE__), "sinatra"))
@@ -90,4 +91,4 @@ class Awestruct::Sinatra < Sinatra::Base
 
 end # class::Awestruct::Sinatra < Sinatra::Base
 
-Awestruct::Sinatra.run!
+$0 == __FILE__ ? Awestruct::Sinatra.run! : (run Awestruct::Sinatra)
