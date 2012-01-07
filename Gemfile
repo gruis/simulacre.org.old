@@ -1,4 +1,5 @@
 source :rubygems
+gem 'rb-inotify'
 gem 'rb-fsevent'
 gem 'sinatra'
 gem 'async_sinatra'
