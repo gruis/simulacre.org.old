@@ -1,12 +1,13 @@
 #!/usr/bin/env ruby
+require 'yaml'
 
-env = lambda do
-        return ENV['AWS_ENV'] if ENV['AWS_ENV']
-        [File.expand_path('~/'), "/etc"].each do |pre|
-          %w(production uat developemnt).each {|e| return e if File.exists?("#{pre}/#{e}") }
-        end 
-        return 'development'
-      end.call
+def env
+  return ENV['AWS_ENV'] if ENV['AWS_ENV']
+  [File.expand_path('~/'), "/etc"].each do |pre|
+    %w(production uat developemnt).each {|e| return e if File.exists?("#{pre}/#{e}") }
+  end
+  return 'development'
+end
 
 config = YAML.load_file("_config/site.yml")
 config.merge!(config.fetch("profiles", {}).fetch(env, {}))
@@ -14,3 +15,4 @@ port = config[:port] || config['port'] || 4242
 bind = config[:bind] || config['bind'] || '127.0.0.1'
 
 fork { exec(%Q{bundle exec thin -R config.ru -p #{port} -a #{bind} -l sinatra/log/thin.log -d start }) }
+
