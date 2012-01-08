@@ -1,3 +1,4 @@
+/*
 // This import applies a global reset to any page that imports this stylesheet.
 @import "blueprint/reset";
 
@@ -47,3 +48,4 @@ body.two-col {
     $content-columns: ceil(2 * $blueprint-grid-columns / 3);
     // true means it's the last column in the row
     @include column($content-columns, true); } }
+*/
