@@ -11,8 +11,9 @@ layout: standard
       %p.postmetadata
         Posted
         = post.date.strftime('%Y-%m-%d')
-        in
-        = post.category_links(:delimiter => " » ") 
+        - if post.respond_to?(:category_links)
+          in
+          = post.category_links(:delimiter => " » ") 
 
       %p.postmetadata
         Tags:

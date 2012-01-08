@@ -17,8 +17,9 @@ layout: standard
     Posted:
     - unless page.date.nil?
       = page.date.strftime('%Y-%m-%d')
-    in
-    = page.category_links( :delimiter => " » ")
+    - if page.respond_to?(:category_links)
+      in
+      = page.category_links( :delimiter => " » ") 
 
   %p.postmetadata
     Tags:

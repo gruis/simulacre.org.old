@@ -35,7 +35,7 @@ layout: base
           Posted:
           - unless page.date.nil?
             = page.date.strftime('%Y-%m-%d')
-          - if page.categories
+          - if page.respond_to?(:category_links)
             in
             = page.category_links( :delimiter => " » ")
 
