@@ -22,9 +22,9 @@ if [ -f tmp/restart ]; then
     fi
   fi
 fi
-# @todo restart if config.ru or sinatra/app.rb have been updated
+[[ -e tmp/pids/thin.pid ]] || ./start 
 # ln -f -s /var/www/simulacre.org/html/ee ../_site/ee
-[[ -e tmp/pids/thin.pid ]] || (./start && sleep 5)
+sleep 5
 curl http://localhost:4242/reindex/`cat ~/.ssh/id_rsa.pub  | awk '{print $2}' | ruby -r uri -ne 'print URI.escape($_.strip, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))'`/
 echo -e "\ndone"
 EOR
