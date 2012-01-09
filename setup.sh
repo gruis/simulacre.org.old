@@ -18,7 +18,7 @@ if [ -f tmp/restart ]; then
   else
     if [ $(stat -c %Y tmp/restart) > $(stat -c %Y tmp/last_restart) ]; then
       echo "$PWD/tmp/restart has been updated; restarting service"
-      bundle install && ./stop && && sleep 2 && ./start && touch tmp/last_restart
+      bundle install && ./stop && sleep 2 && ./start && touch tmp/last_restart
     fi
   fi
 fi
