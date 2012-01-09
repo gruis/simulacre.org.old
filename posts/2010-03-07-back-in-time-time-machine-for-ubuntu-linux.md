@@ -72,13 +72,16 @@ clc@lurr:~$ sudo backintime-gnome
 ~~~
 
 Configure where you want the snapshots stored and how often.
+
 ![Back In Time Settings - General](/images/blog/backintime/general.png)
 
 
 Tell backintime which directories you want to save. I’m going for my entire drive starting from the root ("/"). 
+
 ![Back In Time Settings: Include](/images/blog/backintime/include.png)
 
 Make sure to tell backintime not to backup special directories as well as the directory you use to store the snapshots. Mine’s under /mnt/backup, so excluding /mnt will get the job done.
+
 ![Back In Time Settings: Exclude](/images/blog/backintime/exclude.png)
 
 

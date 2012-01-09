@@ -29,6 +29,35 @@ tags:
 %script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/mtap/js/GetterSetter-nc.js'}
 %script{:type => 'text/javascript', :src => 'http://c5.simulacre.org/mtap/js/mtAPTemplate-nc.js'}
 
+:css
+  #mooTunes ol.mtAPlaylist {
+    left:-10px; 
+  }
+  .mtAPlayerUI .buttons {
+    margin-top: 0px;
+  }
+  .mtAPlayerUI .volume {
+    bottom: -10px;
+  }
+  .mtAPlayerUI .volume .down, .mtAPlayerUI .volume .up {
+    background-color: transparent;
+  }
+  #mooTunes .mtAPlayerUI .readout{
+    line-height: 100%; 
+    top: 8px;
+  }
+  #mooTunes .mtAPlayerUI .readout .artist{
+    margin-top: -2px;
+  }
+  #mooTunes .mtAPlayerUI.shrunk .readout {
+    top: 2px; 
+  }
+  #mooTunes .mtAPlayerUI.shrunk .name{
+    top: -4px;
+  }
+  #mooTunes .mtAPlayerUI.shrunk .artist {
+    bottom: 0px; 
+  }
 :javascript
   try{
     function addTrack(name){

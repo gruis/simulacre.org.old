@@ -23,18 +23,15 @@ You could make the entire button hot by wrapping the LI element in an anchor tag
 
 Put the anchor inside the LI element and use javascript to assign an onClick event to the LI element.
 
-<pre class="js">
-  <code class="js">
+```js
 window.addEvent("domready", function(){
-    /** Make LIs into links if necessary. */
-   $$(".horiz-nav li").each(function(li){
-       var a = li.getFirst("a");
-       if(!a) return;
-           li.addEvent("click", function(){
-               window.location = a.get("href");
-           })
-   });
+  /** Make LIs into links if necessary. */
+  $$(".horiz-nav li").each(function(li){
+      var a = li.getFirst("a");
+      if(!a) return;
+          li.addEvent("click", function(){
+              window.location = a.get("href");
+          })
+  });
 });
-  </code>
-</pre>
-
+```

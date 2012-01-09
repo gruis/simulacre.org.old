@@ -16,11 +16,9 @@ Last week I recorded [190+ medical engline terminology](http://meditastic.simula
 
 By default Google Analytics won't automatically keep track of file downloads. It's pretty darn easy to do it manually though. Just add an onClick event to the anchor that calls:
 
-<pre>
-  <code class="js">
+~~~js
 onClick="pageTracker._trackPageview('/download/mp3s.zip');"
-  </code>
-</pre>
+~~~
 
 That's pretty easy to do. I could even attach a similar event handler to all the links that lead off of my site, e.g., Twitter, in order to see how people left my site.
 
@@ -34,15 +32,13 @@ Anyway, you can download the [latest version of ExitPoll](http://github.com/simu
 
 Just drop the module on your webserver, reference it, and then instantiate ExitPoll in your domready event handler.
 
-<pre>
-  <code class="js">
-&lt;script src="exitpoll.js" type="text/javascript"&gt;&lt;/script&gt;
-&lt;script&gt;
+~~~js
+<script src="exitpoll.js" type="text/javascript"></script>
+<script>
 window.addEvent("domready", function(){
    new ExitPoll({ event : "click" });
 });
-&lt;/script&gt;
-  </code>
-</pre>
+</script>
+~~~
 
 Take a look at the [README](http://github.com/simulacre/ExitPoll/blob/master/README.md) for a full list of available options.

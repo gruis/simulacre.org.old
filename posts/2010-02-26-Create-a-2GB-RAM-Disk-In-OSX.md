@@ -8,7 +8,8 @@ categories:
 - Infrastructure
 - snippets
 ---
-~~~shell
+
+~~~bash
 diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://4194304`
 ~~~
 

@@ -12,9 +12,11 @@ $type-border: #ddd !default
 $blockquote: $type-border !default
 $sans: PT Sans, Arial Rounded, Arial Rounded MT Bold, Helvetica Neue, Arial, Helvetica, sans-serif
 $serif: "PT Serif", Georgia, Times, "Times New Roman", serif !default
-$fixed: Monaco, Bitstream Vera Sans Mono, Lucida Console, Terminal, Courier, monospace
+$fixed: Menlo, Monaco, "Andale Mono" Bitstream Vera Sans Mono, Lucida Console, Terminal, Courier, monospace
 $mono: $fixed
-//$mono: Menlo, Monaco, "Andale Mono", "lucida console", "Courier New", monospace !default;
+$heading-font-family: "PT Serif", "Georgia", "Helvetica Neue", Arial, sans-serif !default
+$header-title-font-family: $heading-font-family !default
+$header-subtitle-font-family: $heading-font-family !default
 
 $noise-bg: image-url('noise.png') top left !default
 $img-border: inline-image('dotted-border.png')
@@ -24,12 +26,17 @@ $link-color-hover: adjust-color($link-color, $lightness: 10, $saturation: 25)
 $link-color-visited: adjust-color($link-color, $hue: 80, $lightness: -4) 
 $link-color-active: adjust-color($link-color-hover, $lightness: -15) 
 
+$text-color: #737373
+$text-color-light: $text-color
 $heading-color: #005f90
 
-$solarized: "light"
+$solarized: "dark"
 
 @import "compass"
+@include global-reset
+@include reset-html5
 @import "utilities"
-@import "partials/base"
+@import "partials/typography"
 @import "partials/solarized"
 @import "partials/syntax"
+@import "partials/base"

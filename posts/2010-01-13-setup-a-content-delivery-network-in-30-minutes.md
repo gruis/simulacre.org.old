@@ -18,8 +18,8 @@ Using a Content Delivery Network will cut down on your hosting fees and improve 
   <li> <a href="http://code.google.com/appengine/downloads.html"></a>Create a new application on your development machine <br /> <img src="http://dl.dropbox.com/u/2439349/blog/GAECDN/createLocalApp.png" /> </li>
   <li> Create images, css, and js directories <img src="http://dl.dropbox.com/u/2439349/blog/GAECDN/createLocalDirs.png" /> </li>
   <li> Open up the app.yaml config file and create handles for the images, css, and js directories. The default_expiration tag is optional, but necessary if you want to use <a title="Far-future expiration header for browser caching of static content" href="http://www.askapache.com/htaccess/apache-speed-expires.html">far-future expiration</a> for long-term browser caching.
-  <pre class="gae">
-  <code class="gae">
+
+<code class="yaml">
 application: simulacre-org
 version: 1
 runtime: python
@@ -36,8 +36,8 @@ handlers:
 
 - url: /js
   static_dir: js
-   </code>
-   </pre>
+</code>
+
   </li>
 <li> Copy all your static content into the images, css and js directories </li>
 <li> Deploy the app</span><br /><img src="http://dl.dropbox.com/u/2439349/blog/GAECDN/deployApp.png" /> </li>

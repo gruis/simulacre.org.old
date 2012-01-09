@@ -7,7 +7,7 @@ body
   margin: 0
   font-family: $sans 
   background: #fafafa url(/images/bg.gif) repeat-x top left
-  color: #737373
+  color: $text-color
   text-align: left
 
 a
@@ -111,6 +111,7 @@ ul.horiz-nav li
   padding: 12px 5px 0
   text-align: center
   cursor: pointer
+  line-height: 100%
   p.desc
     font-size: 6.5pt
     margin-top: 0
@@ -342,6 +343,7 @@ div
 
   .navigation
     width: 100%
+    font-size: 12pt
     margin: 0 auto
     .alignleft, .alignright
       display: inline-block
@@ -416,12 +418,13 @@ div
   li
     list-style: none
     ul
-      padding-left: 14px
+      //
+        padding-left: 14px
       font-size: 9pt
       li
         list-style: circle
 
-article
+article, .post
   margin-top: 2em
   padding-bottom: 1em
   border-bottom: 1px solid #CFDBE1
@@ -432,13 +435,17 @@ article
   h2
     margin-top: 2.5em
   h2:first-child
-    margin: 0
+    margin: 0 0 0.80em
   h3
     margin-top: 2em
   h4, h5, h6
     margin-top: 1.5em
   p > img
-    margin: 0.5em 0 2em
+    margin: -1em 0 2em
+  p + pre, p + .highlight
+    margin-top: -1em
+  p.postmetadata + pre, p.postmetadata + .highlight
+    margin-top: 1.5em
   h3 a, h2 a
     color: $heading-color 
 
@@ -453,7 +460,8 @@ h2:first-child + .post.hentry
 
 p.postmetadata
   font-size: 8pt
-  margin: 0
+  margin: -1.25em 0 1.25em
+  line-height: 120%
 
 .post img, article img
   border: 3px solid #dedede

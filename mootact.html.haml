@@ -54,7 +54,7 @@ download:
   %a#mootact_demo{:href => '#', :style => 'margin-left: 200px;'} Demo
 
 #readme.blob
-  .wikistyle
+  .notwikistyle
     %p MooTact generates and displays a contact form on top of a mask over the rest of the page. It's a Lightbox Contact Form.
     %p The user's input is submitted with Request.JSON and expects the server to respond with JSON. A <a href="http://github.com/simulacre/MooTact/blob/master/backend/web/send.json.php">simple PHP server script</a>that leverages <a href="http://swiftmailer.org/">Swift Mailer</a> is provided.
     %p
@@ -84,23 +84,24 @@ download:
     %h3 Markup
     %p To change the markup for the form pass in an array of form-row objects when instantiating the MooTact object. Each form-row object must at least have an &#8220;html&#8221; member. Any other Element properties may also be defined as members of the form-row object.
 
-    %code.js
-      :preserve
-        new MooTact( {
-            "form-rows" : [
-                 { html    : '<label for="mootact_name">Name</label> <input type="text" id="mootact_name" name="mootact[name]" />'},
-                 { html    : '<label for="mootact_email">E-mail</label> <input type="text" id="mootact_email" name="mootact[email]" />'},
-                 { html    : '<label for="mootact_subject">Subject</label> <select id="mootact_subject" name="mootact[subject]"><option value="feature_request">Feature Request</option><option value="bug">Bug</option></select> '},
-                 { html    : '<label for="mootact_message">Message</label><textarea id="mootact_message" name="mootact[message]" class="message"></textarea>'},
-                 { html    : '<input type="submit" id="mootact_send" value="Send"/>', 
-                   "class" : "submit" }
-             ],
-        }).show();
+    %pre
+      %code.js
+        :preserve
+          new MooTact( {
+              "form-rows" : [
+                   { html    : '<label for="mootact_name">Name</label> <input type="text" id="mootact_name" name="mootact[name]" />'},
+                   { html    : '<label for="mootact_email">E-mail</label> <input type="text" id="mootact_email" name="mootact[email]" />'},
+                   { html    : '<label for="mootact_subject">Subject</label> <select id="mootact_subject" name="mootact[subject]"><option value="feature_request">Feature Request</option><option value="bug">Bug</option></select> '},
+                   { html    : '<label for="mootact_message">Message</label><textarea id="mootact_message" name="mootact[message]" class="message"></textarea>'},
+                   { html    : '<input type="submit" id="mootact_send" value="Send"/>', 
+                     "class" : "submit" }
+               ],
+          }).show();
+
     %h4 Default "form-rows"
     %code.js
       :preserve
-        {
-         "form-rows"    : [
+        {"form-rows"   : [
             { html : '<label for="mootact_name">Name</label> <input type="text" id="mootact_name" name="mootact[name]" class="name" />'},
             { html : '<label for="mootact_email">E-mail</label> <input type="text" id="mootact_email" name="mootact[email]" class="email" />'},
             { html : '<label for="mootact_subject">Subject</label> <input type="text" id="mootact_subject" name="mootact[subject]" class="subject" />'},
@@ -119,7 +120,6 @@ download:
 
     %h2 Options
     %ul
-      %li
       %li url : (string) The relative or absolute URL of the backend script
       %li class : (string) The class name to give the form
       %li prefix : (string) The prefix used when defining the ids of the input fields
@@ -141,24 +141,25 @@ download:
 
     %h2 Valid Input
     %p If the input is valid and the message is sent successfully return a JSON object with a success code:
-    %code.js
-      :preserve
+    %pre
+      %code.js
         { "success" : 1 }
 
     %h2 Invalid Input
     %p If the input is invalid, or the message cannot be sent then return a JSON object detailing the errors:
-    %code.js
-      :preserve
-        {
-          "exception" : {
-          'general'   : "general error message",
-          'fields'    : {
-                              "name"      : "Name is required",
-                              "subject"   : "Subject is required",
-                              "email"     : "A valid e-mail address is required"
-                        }
+    %pre
+      %code.js
+        :preserve
+          {
+            "exception" : {
+            'general'   : "general error message",
+            'fields'    : {
+                                "name"      : "Name is required",
+                                "subject"   : "Subject is required",
+                                "email"     : "A valid e-mail address is required"
+                          }
+            }
           }
-        }
 
     %h2 Installing the Backend Script
     %p You can write your own backend script, or use <a href="http://github.com/simulacre/MooTact/blob/master/backend/web/send.json.php">send.json.php</a>, which is provided in <a href="http://github.com/simulacre/MooTact/tree/master/backend/web/">backend/web</a>. To use send.json.php:
@@ -169,6 +170,4 @@ download:
       %li Change config.php with your SMTP details, e.g., address, username, password
 
     %h2 Demo
-    %ul
-      %li <a href="#mootact_demo">MooTact Demo</a>
-      %li <a href="/mootact-custom/">Custom MooTact Demo</a>
+    %a{:href=>"#mootact_demo"} MooTact Demo
