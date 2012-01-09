@@ -5,8 +5,10 @@ GIT
   specs:
     tilt (1.3.3)
 
-PATH
-  remote: /Users/caleb/src/awestruct
+GIT
+  remote: https://github.com/simulacre/awestruct.git
+  revision: 63853ae6f95e26efcc53b63157196e0454e9c95a
+  submodules: true
   specs:
     awestruct (0.2.11)
       compass (>= 0.11.5)
