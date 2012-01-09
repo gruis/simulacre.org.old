@@ -8,9 +8,20 @@ cd simulacre.org
 git config receive.denyCurrentBranch ignore
 cat > .git/hooks/post-receive <<-EOR
 #!/usr/bin/env bash
-[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" 
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
 cd ..
 env -i git reset --hard
+if [ -f tmp/restart ]; then
+  if [ ! -f tmp/last_restart ]; then 
+    echo "$PWD/tmp/last_restart not found; restarting service"
+    bundle install && ./stop && sleep 2 && ./start && touch tmp/last_restart
+  else
+    if [ $(stat -c %Y tmp/restart) > $(stat -c %Y tmp/last_restart) ]; then
+      echo "$PWD/tmp/restart has been updated; restarting service"
+      bundle install && ./stop && && sleep 2 && ./start && touch tmp/last_restart
+    fi
+  fi
+fi
 # @todo restart if config.ru or sinatra/app.rb have been updated
 # ln -f -s /var/www/simulacre.org/html/ee ../_site/ee
 [[ -e tmp/pids/thin.pid ]] || (./start && sleep 5)

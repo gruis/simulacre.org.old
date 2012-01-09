@@ -21,12 +21,18 @@ a
   &:active
     top: 1px
 
-\::-moz-selection
+
+p::-moz-selection, a::selection
+  color: inherit
   background: #fbdbe8
-  color: #F55B99
-\::selection
+p::selection, a::selection
+  color: inherit
   background: #fbdbe8
-  color: #F55B99
+pre::selection, .pre-code::selection
+  color: inherit
+  background: adjust-color($base03, $lightness: 23%, $saturation: -65%)
+  text-shadow: $base03 0 1px
+  
 
 img
   border: none
