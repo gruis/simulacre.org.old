@@ -5,6 +5,7 @@ require "awestruct"
 require 'sinatra/base'
 require "fssm"
 
+
 class Awestruct::Sinatra < Sinatra::Base
   set :environment, (lambda do
     return ENV['AWS_ENV'] if ENV['AWS_ENV']

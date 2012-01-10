@@ -5,10 +5,8 @@ GIT
   specs:
     tilt (1.3.3)
 
-GIT
-  remote: https://github.com/simulacre/awestruct.git
-  revision: 63853ae6f95e26efcc53b63157196e0454e9c95a
-  submodules: true
+PATH
+  remote: /Users/caleb/src/awestruct
   specs:
     awestruct (0.2.11)
       compass (>= 0.11.5)
@@ -16,13 +14,18 @@ GIT
       fssm (= 0.2.7)
       haml (<= 3.1.0)
       hashery (= 1.4.0)
-      hpricot
       liquid
+      nokogiri
       org-ruby (= 0.5.3)
-      pygments.rb
       redcarpet
       sass (<= 3.1.0)
       tilt
+
+PATH
+  remote: /Users/caleb/src/octopress
+  specs:
+    octopress-plugins (0.0.1)
+      pygments.rb
 
 GEM
   remote: http://rubygems.org/
@@ -46,12 +49,12 @@ GEM
     fssm (0.2.7)
     haml (3.1.0)
     hashery (1.4.0)
-    hpricot (0.8.5)
     json (1.6.3)
     liquid (2.3.0)
     mailfactory (1.4.0)
       mime-types (>= 1.13.1)
     mime-types (1.16)
+    nokogiri (1.5.0)
     org-ruby (0.5.3)
       rubypants (>= 0.2.0)
     pygments.rb (0.2.4)
@@ -88,6 +91,7 @@ DEPENDENCIES
   awestruct!
   disqus
   mailfactory
+  octopress-plugins!
   rb-fsevent
   rb-inotify
   sdsykes-ferret
