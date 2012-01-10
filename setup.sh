@@ -16,7 +16,7 @@ if [ -f tmp/restart ]; then
     echo "$PWD/tmp/last_restart not found; restarting service"
     bundle install && ./stop && sleep 2 && ./start && touch tmp/last_restart
   else
-    if [ $(stat -c %Y tmp/restart) > $(stat -c %Y tmp/last_restart) ]; then
+    if [ test tmp/restart -nt tmp/last_restart ]; then
       echo "$PWD/tmp/restart has been updated; restarting service"
       bundle install && ./stop && sleep 2 && ./start && touch tmp/last_restart
     fi
