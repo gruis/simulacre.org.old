@@ -1,3 +1,4 @@
 sinatra/log
 .mailer.yml
 .DS_Store
+.bundle
