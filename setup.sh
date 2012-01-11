@@ -38,3 +38,5 @@ curl http://localhost:4242/reindex/`cat ~/.ssh/id_rsa.pub  | awk '{print $2}' | 
 echo -e "\ndone"
 EOR
 chmod ug+x .git/hooks/post-receive
+mkdir _site
+ln -s /var/www/simulacre.org/html/ee _site/ee
