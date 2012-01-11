@@ -15,7 +15,7 @@ multiplexer or simple window manager for CLI interfaces. Newer versions
 support spliting a single terminal window both horizontally and
 vertically. Each split window can run its own independent shell.
 
-![GNU Screen - terminal multiplexer](/images/blog/making-gnu-screen-remember-splits.png)
+<img alt="GNU Screen - terminal multiplexer" src="/images/blog/making-gnu-screen-remember-splits.png" style="float:left; margin: 0.2em 0.75em 0 0">
 
 Screen also allows you to start programs detach from Screen, logout
 and later reattach to the same Screen after logging in again. Once
