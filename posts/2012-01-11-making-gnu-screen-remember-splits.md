@@ -76,9 +76,9 @@ keybinding for the outer screen session. Then whenever you start the
 outer session just point it at the alternate configuration file.
 
 ```shell
-$ cat ~/.screenrc.outer                                                                                                                                                                    [master]
+$ cat ~/.screenrc.outer
 escape ^Oo
-$ screen -S outer -c ~/.screenrc.outer screen -S inner  
+$ screen -S outer -c ~/.screenrc.outer screen -S inner 
 ```
 
 ## References
