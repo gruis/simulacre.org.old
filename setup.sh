@@ -6,7 +6,7 @@ set -e
 git clone git://github.com/simulacre/simulacre.org.git
 cd simulacre.org
 git config receive.denyCurrentBranch ignore
-cat > .git/hooks/post-receive <<-EOR
+cat > .git/hooks/post-receive << "EOR"
 #!/usr/bin/env bash
 function build_and_run {
     [[ -z "$1" ]] || echo -e $1
