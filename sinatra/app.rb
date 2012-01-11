@@ -17,7 +17,7 @@ get "/reindex/:key/?" do |key|
   halt(402, "unauthorized") unless settings.environment == :development || (key && key == IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1])
   logger.info("updating search index")
   # @todo plugin to the post_render filters
-  awe.generate(settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false)
+  awe.generate(settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=true)
   settings.sindex =  Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
 
   settings.awe.site.pages.each do |page|

@@ -16,7 +16,7 @@ class Awestruct::Sinatra < Sinatra::Base
   end.call.to_sym)
   awc = Awestruct::Config.new(Dir.pwd)
   awe = Awestruct::Engine.new(awc)
-  awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false )
+  awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=true )
 
   enable :static, :logging
   disable :run
