@@ -1,1 +1,1 @@
-always monitor
+restart on htaccess
