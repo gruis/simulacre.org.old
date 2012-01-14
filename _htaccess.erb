@@ -4,9 +4,13 @@ RewriteEngine on
 #  overrides for japanese characters
 RewriteRule wordpress/2007/01/14/個人戦-usa-yoo-versus-japan-hojo/ /ee/i/simIndigo/article/usa_yoo_versus_japan_hojo/ [R,L]
 RewriteRule wordpress/2006/05/14/noma-道場 /ee/i/simIndigo/article/noma/ [R,L]
+# this doesn't work ...
+RewriteRule wordpress/2006/06/14/\%25E5\%259B\%25A3\%25E4\%25BD\%2593\%25E6\%2588\%25A6dantaisen-kendo-team-tournaments /ee/i/simIndigo/article/dantaisen_kendo_team_tournaments/ [R,L]
 
 # @todo RewriteRule wordpress/?p=(\d+)/ /ee/i/P$1/ [R,L]
 RewriteRule wordpress/\d{4}/\d{2}/\d{2}/(.+)/?$ /ee/i/simIndigo/article/$1/ [R,L]
+RewriteRule wordpress/(\d{4})/(\d{2})/?$ /ee/i/simIndigo/$1/$2/ [R,L]
+RewriteRule wordpress/(\d{4})/(\d{2})/page/\d+/?$ /ee/i/simIndigo/$1/$2/ [R,L]
 RewriteRule wordpress/photos/album/(\d+)/?$ /ee/i/simIndigo/album/$1 [R,L]
 RewriteRule wordpress/photos/album/(\d+)/.*/photo/(\d+)/?$ /ee/i/simIndigo/picture/$2/in-set/$1 [R,L]
 RewriteRule wordpress/photos/album/(\d+)/page/(\d+)/?$ /ee/i/simIndigo/album/$1/page$2 [R,L]
