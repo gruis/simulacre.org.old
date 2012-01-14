@@ -7,16 +7,10 @@ require "fssm"
 
 
 class Awestruct::Sinatra < Sinatra::Base
-  set :environment, (lambda do
-    return ENV['AWS_ENV'] if ENV['AWS_ENV']
-    [File.expand_path('~/'), "/etc"].each do |pre|
-      %w(production uat developemnt).each {|e| return e if File.exists?("#{pre}/#{e}") }
-    end 
-    return 'development'
-  end.call.to_sym)
   awc = Awestruct::Config.new(Dir.pwd)
   awe = Awestruct::Engine.new(awc)
-  awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=true )
+  awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=(settings.environment == :production) )
+  File.open("#{awe.site.output_dir}/.htaccess", "w") { |f| f.puts Tilt.new('_htaccess.erb').render(settings) }
 
   enable :static, :logging
   disable :run
@@ -29,6 +23,7 @@ class Awestruct::Sinatra < Sinatra::Base
   set :public_folder, awc.output_dir
   set :app_file, (awe.site.sinatra_app ||= File.join(settings.root, "app.rb"))
 
+
   if settings.environment != :development
     awe.site.sinatra_logdir ||= File.join(awe.site.sinatra_root, 'log')
     FileUtils.mkdir_p(awe.site.sinatra_logdir)
@@ -38,31 +33,6 @@ class Awestruct::Sinatra < Sinatra::Base
     $stderr.reopen(log)
   end # settings.environment == :development
 
-  htaccess = IO.read('.htaccess').each_line.map(&:strip)
-  ohta     = htaccess.clone
-  ['RewriteEngine on', 
-   'RewriteRule wordpress/photos/album/(.*) /ee/i/simIndigo/album/$1 [R,L]',
-   'RewriteRule wordpress/photos/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]',
-   'RewriteRule wordpress/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]',
-   'RewriteCond %{REQUEST_URI} !=/feed/',
-   'RewriteCond %{REQUEST_URI} !=/feed/index.html',
-   'RewriteCond %{REQUEST_FILENAME} !-f', 
-   'RewriteCond %{REQUEST_FILENAME}/index.html !-f', 
-   'RewriteRule ^(.*)$ http://localhost:4242/$1 [P,L]']
-  .inject(0) do |idx, line|
-    if (nidx = htaccess.index(line))
-      htaccess.delete_at(nidx)
-    end
-    htaccess.insert(idx, line)
-    idx + 1
-  end # idx, line
-  if ohta != htaccess
-    File.open(".htaccess", "w") { |f| f.puts htaccess.join("\n") }
-    awe.generate( settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=false )
-  end # ohta != htaccess
-
-
-
   get '/?' do
     IO.read(settings.public_folder + "/index.html")
   end
@@ -71,6 +41,7 @@ class Awestruct::Sinatra < Sinatra::Base
   instance_eval(IO.read(awe.site.sinatra_app), awe.site.sinatra_app, 1) if File.exists?(awe.site.sinatra_app)
 
 
+  
   if settings.environment == :development
     Thread.new do
       monitor       = FSSM::Monitor.new
@@ -89,7 +60,6 @@ class Awestruct::Sinatra < Sinatra::Base
       monitor.run
     end # Thread.new
   end # settings.environment == :development
-
 end # class::Awestruct::Sinatra < Sinatra::Base
 
 
