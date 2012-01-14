@@ -1,0 +1,83 @@
+---
+layout: base
+---
+:javascript
+  var queryArgs = (function(){
+    qa = {}
+    window.location.search.slice(1).split("&").each(function(pair){ 
+        pair = pair.split("="); 
+        qa[pair[0]] = pair[1];
+      });
+      return qa;
+  })();
+
+  var flickr = (function(apik, uid){
+    var endpnt = 'http://api.flickr.com/services/rest/?api_key='+apik+'&user_id='+uid+'&format=json' 
+    var get    = function(meth, opts, cb){
+      typeof opts === "function" && (cb = opts);
+      // @todo check for cb
+      return new Request.JSONP({
+        url         : endpnt + '&method=' + meth,
+        data        : opts,
+        callbackKey : 'jsoncallback',
+        onRequest   : function(url){ console.log("requesting " + url) },
+        onComplete  : cb
+      }).send();
+    }
+
+    return {
+      photo : function(phid){
+        var photo = {
+          sizes: function(cb){ return cache.get('flickr.photos.getSizes', cb) },
+          info : function(cb){ return cache.get('flickr.photos.getInfo', cb) } 
+        };
+
+        var cache = (function(){
+          var pcache = {};
+          return {
+            get : function(meth, cb) {
+              if (typeof pcache[meth + phid] !== "undefined") {
+                return cb(pcache[meth + phid]);
+              }  
+              //typeof pcache[meth + phid] !== "undefined" && (return cb(pcache[meth+phid])); 
+              get(meth, {'photo_id':phid}, function(ret){
+                pcache[meth + phid] = ret;
+                cb(ret);
+              });
+              return photo;
+            } 
+          }
+        })();
+
+        return photo;
+      } 
+    };
+  })('ffb0f7ab9cfb19fa439130d83570d6d4', '87871204@N00');
+
+  // @todo - use a  templating library ...
+  // @todo - check for errors
+  window.addEvent("domready", function(){
+    if (typeof queryArgs["p"] !== "undefined"){
+      var furl =  'http://www.flickr.com/photos/87871204@N00/' + queryArgs["p"] + '/';
+      flickr.photo(queryArgs["p"]).info(function(info){
+        $('photo').getElement('p.desc').set('html', info.photo.description._content);
+        info.photo.tags.tag.each(function(tag){
+          $('photo').getElement('ul.tags').grab(new Element('li', {'html' : '<a href="/photo/tag/'+tag.raw+'/">'+tag.raw+'</a>'}))
+        });
+      }).sizes(function(sizes){
+        var img = sizes.sizes.size.slice(-1)[0]
+        img     = new Element('img', {
+          'src'    : img.source,
+          'width'  : img.width,
+          'height' : img.height,
+          'style'  : 'float:left; padding-right:1em;'
+        });
+        $('photo').grab(new Element('a', { 'href' : furl }).grab(img), 'top');
+      });
+    }
+  });
+
+#photo
+  %p.desc
+  Tags:
+  %ul.tags

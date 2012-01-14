@@ -1,5 +1,9 @@
 RewriteEngine on
 
+<% if :development == environment %>
+RewriteRule ^photo/(\d+)/$ /photo/?p=$1 [QSA,R,L]
+<% end %>
+
 # Redirect old wordpress blog to Expression Engine
 #  overrides for japanese characters
 RewriteRule wordpress/2007/01/14/個人戦-usa-yoo-versus-japan-hojo/ /ee/i/simIndigo/article/usa_yoo_versus_japan_hojo/ [R,L]
