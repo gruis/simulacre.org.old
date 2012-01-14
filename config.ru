@@ -50,6 +50,7 @@ class Awestruct::Sinatra < Sinatra::Base
   set :root,  (awe.site.sinatra_root ||= File.join(File.dirname(__FILE__), "sinatra"))
   set :public_folder, awc.output_dir
   set :app_file, (awe.site.sinatra_app ||= File.join(settings.root, "app.rb"))
+  set :authkey, IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1] 
   awe.site.sinatra_app = File.join(settings.root, "app.rb") unless awe.site.sinatra_app
   File.open("#{awe.site.output_dir}/.htaccess", "w") { |f| f.puts Tilt.new('_htaccess.erb').render(settings) }
 
@@ -63,16 +64,14 @@ class Awestruct::Sinatra < Sinatra::Base
   end # settings.environment == :development
 
   configure do
-    if settings.environment == :development
-      EM.next_tick do
-        slice_from = awc.input_dir.length
-        set :dw, DirectoryWatcher.new(awc.input_dir, :interval => 0.5, :glob => '**/*', :pre_load => true, :scanner => :em)
-        settings.dw.add_observer do |*events| 
-          generate unless events.map{|e| e.path[slice_from..-1]}.reject{ |rel| awc.ignore.include?(rel) || rel =~ /.*(~|\.(swp|bak|tmp))$/ || rel =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/ }.empty?
-        end
-        dw.start
-      end 
-    end # settings.environment == :development
+    EM.next_tick do
+      slice_from = awc.input_dir.length
+      set :dw, DirectoryWatcher.new(awc.input_dir, :interval => 0.5, :glob => '**/*', :pre_load => true, :scanner => :em)
+      settings.dw.add_observer do |*events| 
+        generate unless events.map{|e| e.path[slice_from..-1]}.reject{ |rel| awc.ignore.include?(rel) || rel =~ /.*(~|\.(swp|bak|tmp))$/ || rel =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/ }.empty?
+      end
+      dw.start
+    end 
   end
 
   instance_eval(IO.read(awe.site.sinatra_app), awe.site.sinatra_app, 1) if File.exists?(awe.site.sinatra_app)
