@@ -6,8 +6,8 @@ RewriteRule wordpress/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]
 
 RewriteCond %{REQUEST_URI} !=/feed/
 RewriteCond %{REQUEST_URI} !=/feed/index.html
-RewriteCond %{REQUEST_FILENAME} !-f'
-RewriteCond %{REQUEST_FILENAME}/index.html !-f'
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME}/index.html !-f
 RewriteRule ^(.*)$ http://localhost:<%= port || '4242' %>/$1 [P,L]
 
 AddHandler php5-script .php

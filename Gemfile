@@ -9,6 +9,8 @@ end
 source :rubygems
 gem 'rb-inotify'
 gem 'rb-fsevent'
+gem 'directory_watcher'
+
 gem 'sinatra'
 gem 'async_sinatra'
 gem 'thin'

@@ -7,19 +7,10 @@ require "ferret"
 register Sinatra::Async
 
 set :mailer, YAML.load_file(".mailer.yml") if File.exists?(".mailer.yml")
-set :sindex, Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
+set :sindex, Ferret::Index::Index.new
 
-not_found do
-  IO.read(settings.public_folder + '/404.html')
-end
-
-get "/reindex/:key/?" do |key|
-  halt(402, "unauthorized") unless settings.environment == :development || (key && key == IO.read(File.expand_path("~/.ssh/id_rsa.pub")).split(" ")[1])
-  logger.info("updating search index")
-  # @todo plugin to the post_render filters
-  awe.generate(settings.environment.to_s, awe.site.base_url, "http://localhost:#{settings.port}", force=true)
-  settings.sindex =  Ferret::Index::Index.new # (:path => settings.root + "/ferret.idx")
-
+post_generate do
+  settings.sindex =  Ferret::Index::Index.new
   settings.awe.site.pages.each do |page|
     next unless File.extname(page.output_path) == ".html" && (page.title || page.demo)
     settings.sindex << {
@@ -30,10 +21,17 @@ get "/reindex/:key/?" do |key|
       :date    => page.date && page.date.strftime('%Y-%m-%d'),
       :content => page.content
     }
-  end # page
-  logger.info("indexed #{settings.awe.site.pages.count} pages")
-  "indexed #{settings.awe.site.pages.count} pages"
-end # reindex
+  end
+  $stderr.puts("indexed #{awe.site.pages.count} pages")
+end # post_generate
+
+not_found do
+  IO.read(settings.public_folder + '/404.html')
+end
+
+get '/?' do
+  IO.read(settings.public_folder + "/index.html")
+end
 
 get "/search/?" do
   raise Sinatra::NotFound unless params[:q]

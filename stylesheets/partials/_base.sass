@@ -456,11 +456,15 @@ article, .post
     color: $heading-color 
 
 .post.hentry
-  padding-top: 3em
+  padding-top: 2.5em
   border-top: 2px #F3F3F3 solid
+  border-bottom: none
+  margin-top: 0
 .post.hentry:first-child, h2:first-child + .post.hentry
   padding-top: 0
   border-top: none
+.post.hentry h3:first-child
+  margin-top: 0
 h2:first-child + .post.hentry
   margin-top: 2em
 

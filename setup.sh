@@ -34,9 +34,6 @@ else
   [[ -e tmp/pids/thin.pid ]] || ./start
 fi
 
-# @todo don't just wait 10 seconds, check for the service
-sleep 10
-curl http://localhost:4242/reindex/`cat ~/.ssh/id_rsa.pub  | awk '{print $2}' | ruby -r uri -ne 'print URI.escape($_.strip, Regexp.new("[^#{URI::PATTERN::UNRESERVED}]"))'`/
 echo -e "\ndone"
 EOR
 chmod ug+x .git/hooks/post-receive
