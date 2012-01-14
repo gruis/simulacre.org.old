@@ -14,6 +14,3 @@ diskutil erasevolume HFS+ "ramdisk" `hdiutil attach -nomount ram://4194304`
 ~~~
 
 The only variable is the number of sectors. Calculate it by (size in MB) * 2048
-
-
-<!-- this is only a test for me to see -->
