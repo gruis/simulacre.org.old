@@ -66,9 +66,14 @@ class Awestruct::Sinatra < Sinatra::Base
   configure do
     EM.next_tick do
       slice_from = awc.input_dir.length
+      awc.ignore.push("_htaccess.erb")
       set :dw, DirectoryWatcher.new(awc.input_dir, :interval => 0.5, :glob => '**/*', :pre_load => true, :scanner => :em)
       settings.dw.add_observer do |*events| 
-        generate unless events.map{|e| e.path[slice_from..-1]}.reject{ |rel| awc.ignore.include?(rel) || rel =~ /.*(~|\.(swp|bak|tmp))$/ || rel =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/ }.empty?
+        relatives = events.map{|e| e.path[slice_from..-1]}
+        if relatives.include?("_htaccess.erb")
+          File.open("#{awe.site.output_dir}/.htaccess", "w") { |f| f.puts Tilt.new('_htaccess.erb').render(settings) }
+        end
+        generate unless relatives.reject{ |r| awc.ignore.include?(r) || r =~ /.*(~|\.(swp|bak|tmp))$/ || r =~ /^(_site|_tmp|\.git|\.gitignore|\.sass-cache|\.|\.\.).*/ }.empty?
       end
       dw.start
     end 

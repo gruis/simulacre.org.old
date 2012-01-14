@@ -3,6 +3,8 @@ RewriteEngine on
 RewriteRule wordpress/photos/album/(.*) /ee/i/simIndigo/album/$1 [R,L]
 RewriteRule wordpress/photos/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]
 RewriteRule wordpress/tags/(.*) /ee/i/simIndigo/flickr/tags/$1 [R,L]
+RewriteRule wordpress/\d+/\d+/\d+/(.*)/ /ee/i/simIndigo/article/$1 [R,L]
+RewriteRule wordpress/2007/01/14/個人戦-usa-yoo-versus-japan-hojo/ /ee/i/simIndigo/article/usa_yoo_versus_japan_hojo/ [R,L]
 
 RewriteCond %{REQUEST_URI} !=/feed/
 RewriteCond %{REQUEST_URI} !=/feed/index.html
