@@ -118,40 +118,40 @@ var flickrApp = (function(apik, uid, blk){
   // A specific photo was requested
   // @todo - check for errors
   var photo = function(params){
-    var furl =  'http://www.flickr.com/photos/'+uid+'/' + params["p"] + '/';
-    this.flickr.photo(params["p"]).info(function(info){
-      $('photo').getElement('p.desc').set('html', info.photo.description._content);
-      info.photo.tags.tag.each(function(tag){
-        $('photo').getElement('ul.tags').grab(new Element('li', {'html' : '<a href="/photo/tag/'+tag.raw+'/">'+tag.raw+'</a>'}))
+    var p = this.flickr.photo(params['p']);
+    p.info(function(info){
+      p.sizes(function(sizes){
+        // @todo pick on that is an appropriate size
+        var img = sizes.sizes.size.slice(-1)[0];
+        view = {
+          'title'       : info.photo.title._content,
+          'description' : info.photo.description._content,
+          'tags'        : info.photo.tags.tag.map(function(tag){return tag.raw}),
+          'url'         : 'http://www.flickr.com/photos/'+uid+'/' + params["p"] + '/',
+          'src'         : img.source,
+          'height'      : img.height,
+          'width'       : img.width
+        };
+        $('photo').set('html', Mustache.to_html($('photo-tmpl').text, view) + ($('photo').innerHTML || ""));
       });
-    }).sizes(function(sizes){
-      var img = sizes.sizes.size.slice(-1)[0]
-      img     = new Element('img', {
-        'src'    : img.source,
-        'width'  : img.width,
-        'height' : img.height,
-        'style'  : 'float:left; padding-right:1em;'
-      });
-      $('photo').grab(new Element('a', { 'href' : furl }).grab(img), 'top');
-    }).title(function(title){
-      console.log("title: " + title);
-    }).next(function(photo){
-      console.log("next photo: " + photo.id);
-      photo.thumb(function(thumb){
-        console.log("  " + photo.id + " : " + thumb);
-      }).title(function(title){
-        console.log("  " + photo.id + " : " + title);
-      });
-      console.log();
-    }).prev(function(photo){
-      console.log("previous photo: " + photo.id);
-      photo.thumb(function(thumb){
-        console.log("  " + photo.id + " : " + thumb);
-      }).title(function(title){
-        console.log("  " + photo.id + " : " + title);
-      });
+    }).next(function(nextp){
+      nextp.thumb(function(nexttmb){
+        p.prev(function(prevp){
+          prevp.thumb(function(prevtmb){
+            prevp.title(function(ptitle){
+              nextp.title(function(ntitle){
+                var nav = Mustache.to_html($('stream-nav-tmpl').text, {
+                  prev : { url: "/photo/?p=" + prevp.id, title: ptitle, src: prevtmb },
+                  next : { url: "/photo/?p=" + nextp.id, title: ntitle, src: nexttmb }
+                });
+                $('photo').set('html', ($('photo').innerHTML || "") + nav );
+              });
+            });
+          });
+        });
+      })
     });
-  }
+  } // photo
 
 
   this.photo  = photo;
