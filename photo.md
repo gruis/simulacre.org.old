@@ -15,17 +15,32 @@ layout: base
   });
 </script>
 
-<div id="photo" >
+<div id="flickrApp"></div>
 
-</div>
+<script type="text/html" id="photos-page-tmpl">
+  <h2>{{title}}</h2>
+  <p style="font-size:10.5pt"> 
+  <a href="/photo/?{{resource}}&page={{prev}}" alt="{{title}} page {{prev}}">«</a>
+  page {{page}} of {{pages}} 
+  <a href="/photo/?{{resource}}&page={{next}}" alt="{{title}} page {{next}}">»</a>
+  </p>
+  <div id="photo-list"> </div>
+</script>
+
+<script type="text/html" id="photo-tmb-tmpl">
+  <a href="/photo/?p={{id}}" title="{{title}}" alt="{{title}}">
+    <img style="float:left; padding:1em;" src="{{src}}" height="100px" width="100px" alt="{{title}}"/>
+  </a>
+</script>
 
 <script type="text/html" id="photo-tmpl">
   <h2>{{title}}</h2>
   <a href="{{url}}" title="{{title}}">
-    <img style="float:left; padding-right:1em;" src="{{src}}" height="{{height}}" width="{{width}}" />
+    <img style="float:left; padding-right:1em; padding-bottom:2em;" src="{{src}}" height="{{height}}" width="{{width}}" />
   </a>
   <p>{{description}}
-  <ul class="tags photo" style="float:left; margin-right:2em;">
+  <ul class="tags photo" style="float:left; margin-right:2em; font-size: 10.5pt;">
+  Tags:
   {{#tags}}
     <li><a href="/photo?t={{.}}" alt="photos tagged {{.}}">{{.}}</a></li>
   {{/tags}}

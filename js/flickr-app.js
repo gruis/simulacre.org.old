@@ -1,10 +1,30 @@
 var flickrApp = (function(apik, uid, blk){
   if ( !(this instanceof flickrApp) )
     return new flickrApp(apik, uid, blk);
+  var FlickrAppError = function(message) {
+    this.name = "FlickrAppError";
+    this.message = message || "";
+  }
+  FlickrAppError.prototype = new Error();
+  FlickrAppError.prototype.constructor = FlickrAppError;
+
+  var ele;
+  var my = this;
+
+  if ((ele = $('flickrApp')) == null)
+    throw new FlickrAppError("container element 'flickrApp' not found");
 
   /** KERNEL **/
+  var merge_opts = function(obj1,obj2){
+      var obj3 = {};
+      [obj1, obj2].each(function(obj){
+        for (var attr in obj) { obj3[attr] = obj[attr]; }
+      })
+      return obj3;
+  }
+
   var query = (function(){
-    qa = {}
+    var qa = {}
     window.location.search.slice(1).split("&").each(function(pair){
         pair = pair.split("=");
         qa[pair[0]] = pair[1];
@@ -13,32 +33,96 @@ var flickrApp = (function(apik, uid, blk){
   })();
 
   var route = function(params){
-    if (typeof params["p"] !== "undefined")
-      this.photo(params);
-    else if(typeof params['t'] !== "undefined")
-      this.tag(params);
+    console.log("route: ", params);
+    if (typeof params == "string") {
+      var qa = {};
+      (params.split('?')[1] || "").split("&").each(function(pair){
+        pair = pair.split("=")
+        qa[pair[0]] = pair[1];
+      });
+      params = qa;
+    }
+    query = params;
+
+    ele.empty();
+    if (typeof query["p"] !== "undefined")
+      my.photo(query);
+    else if(typeof query['t'] !== "undefined")
+      my.tag(query);
+    else
+      my.recent(query);
   }
+
+  var shimLinks = function(){
+    ele.getElements('a').each(function(el){
+      if (el.get('shimmed')) { return }
+      el.removeEvents('click');
+      el.addEvent('click', function(e){
+        e.stop();
+        e.stopPropagation();
+        route(el.href);
+      });
+      el.set("shimmed");
+    });
+  }
+
 
 
   /** MODEL **/
 
   // Provides a common model of the FlickrApi
   var flickr = (function(apik, uid){
-    var endpnt     = 'http://api.flickr.com/services/rest/?api_key='+apik+'&user_id='+uid+'&format=json'
     var photoCache = {};
-    var get        = function(meth, opts, cb){
-      typeof opts === "function" && (cb = opts);
-      // @todo check for cb
-      return new Request.JSONP({
-        url         : endpnt + '&method=' + meth,
-        data        : opts,
-        callbackKey : 'jsoncallback',
-        onRequest   : function(url){ console.log("requesting " + url) },
-        onComplete  : cb
-      }).send();
-    }
+
+    var apiCache = (function(endpnt){
+      var cache = {}
+      var o_to_qs = function(opts){
+        var qs = [];
+        for ( var attr in opts) { qs.push(attr + '=' + opts[attr]) }
+        return qs = qs.join("&");
+      }
+      return {
+        get : function(meth, opts, cb){
+          var furl;
+          if(typeof opts === "function"){
+            cb = opts;
+            furl = endpnt + "&method=" + meth;
+          } else {
+            furl = endpnt + "&method=" + meth + "&" + o_to_qs(opts);
+          }
+          console.log("request", furl);
+          if (cache[furl] !== undefined) {
+            cb(cache[furl]);
+          } else  {
+            new Request.JSONP({
+              url         : furl,
+              callbackKey : 'jsoncallback',
+              onRequest   : function(url){ console.log("requesting ", furl) },
+              onComplete  : function(res){
+                cache[furl] = res
+                cb(res);
+              }
+            }).send();
+          }
+          return apiCache;
+        }
+      };
+    })('http://api.flickr.com/services/rest/?api_key='+apik+'&user_id='+uid+'&format=json');
+
 
     return {
+      search : (function(per_page){
+        return {
+          tag : function(tag, opts, cb){
+            console.log("requesting photos tagged: " + tag);
+            apiCache.get('flickr.photos.search', merge_opts(opts, {'user_id' : uid, 'tags' : tag, per_page : per_page}), cb);
+          }
+        }
+      })(21), // @todo make per_page configurable when starting the app
+      recent : function(opts, cb){
+        opts = merge_opts({'user_id' : uid, per_page : 21, page : 1 }, opts)
+        apiCache.get('flickr.photos.search', opts, cb);
+      },
       /* opts:
        *  'thumb': url of photo's thumbnail
        *  'title': title of the photo
@@ -48,29 +132,17 @@ var flickrApp = (function(apik, uid, blk){
           return photoCache[phid];
         if(typeof opts === "undefined")
           opts = {};
-        var apiCache = (function(){
-          var acache = {};
-          return {
-            // @todo check if a request for the same resource is already
-            // running and append to its callback if so.
-            get : function(meth, cb) {
-              if (typeof acache[meth + phid] !== "undefined"){
-                cb(acache[meth + phid]);
-              } else {
-                get(meth, {'photo_id':phid}, function(ret){
-                  acache[meth + phid] = ret;
-                  cb(ret);
-                });
-              }
-              return photoCache[phid];
-            }
-          }
-        })();
 
         photoCache[phid] = {
           id   : phid,
-          sizes: function(cb){ return apiCache.get('flickr.photos.getSizes', cb); },
-          info : function(cb){ return apiCache.get('flickr.photos.getInfo', cb); },
+          sizes: function(cb){
+            apiCache.get('flickr.photos.getSizes', {photo_id : phid}, cb);
+            return photoCache[phid];
+          },
+          info : function(cb){
+            apiCache.get('flickr.photos.getInfo', {photo_id : phid}, cb);
+            return photoCache[phid];
+          },
           title : function(cb) {
             if(opts.title){
               cb(opts.title);
@@ -87,20 +159,20 @@ var flickrApp = (function(apik, uid, blk){
             } else {
               photoCache[phid].sizes(function(sizes){
                 // @todo look for the one with the label 'thumbnail'
-                cb(sizes.sizes[1].source);
+                cb(sizes.sizes.size[1].source);
               });
             }
             return photoCache[phid]
           },
           next : function(cb) {
-            apiCache.get('flickr.photos.getContext', function(context){
+            apiCache.get('flickr.photos.getContext', {photo_id : phid},  function(context){
               p = context.prevphoto
               cb(flickr.photo(p.id, {'thumb' : p.thumb, 'title' : p.title} ));
             });
             return photoCache[phid];
           },
           prev : function(cb) {
-            apiCache.get('flickr.photos.getContext', function(context){
+            apiCache.get('flickr.photos.getContext', {photo_id: phid}, function(context){
               p = context.nextphoto
               cb(flickr.photo(p.id, {'thumb' : p.thumb, 'title' : p.title} ));
             });
@@ -118,7 +190,7 @@ var flickrApp = (function(apik, uid, blk){
   // A specific photo was requested
   // @todo - check for errors
   var photo = function(params){
-    var p = this.flickr.photo(params['p']);
+    var p = my.flickr.photo(params['p']);
     p.info(function(info){
       p.sizes(function(sizes){
         // @todo pick on that is an appropriate size
@@ -132,7 +204,8 @@ var flickrApp = (function(apik, uid, blk){
           'height'      : img.height,
           'width'       : img.width
         };
-        $('photo').set('html', Mustache.to_html($('photo-tmpl').text, view) + ($('photo').innerHTML || ""));
+        ele.set('html', Mustache.to_html($('photo-tmpl').text, view) + (ele.innerHTML || ""));
+        shimLinks();
       });
     }).next(function(nextp){
       nextp.thumb(function(nexttmb){
@@ -144,7 +217,8 @@ var flickrApp = (function(apik, uid, blk){
                   prev : { url: "/photo/?p=" + prevp.id, title: ptitle, src: prevtmb },
                   next : { url: "/photo/?p=" + nextp.id, title: ntitle, src: nexttmb }
                 });
-                $('photo').set('html', ($('photo').innerHTML || "") + nav );
+                ele.set('html', (ele.innerHTML || "") + nav );
+                shimLinks();
               });
             });
           });
@@ -153,11 +227,55 @@ var flickrApp = (function(apik, uid, blk){
     });
   } // photo
 
+  var tag = function(params){
+    my.flickr.search.tag(params['t'], {page : params['page'] || 1}, function(page){
+      var view = { title    : 'Photos tagged ' + params['t'],
+                   resource : 't=' + params['t'],
+                   page     : page.photos.page,
+                   pages    : page.photos.pages,
+                   next     : page.photos.page + 1 > page.photos.pages ? 1 : page.photos.page + 1,
+                   prev     : page.photos.page - 1 < 1 ? page.photos.pages : page.photos.page - 1 };
+      ele.set('html', Mustache.to_html($('photos-page-tmpl').text, view))
+      var list = $("photo-list");
+      page.photos.photo.each(function(photo){
+        my.flickr.photo(photo.id, photo.title).thumb(function(thumb){
+          view = { title : photo.title, id : photo.id, src : thumb }
+          list.set('html', list.innerHTML + Mustache.to_html($('photo-tmb-tmpl').text, view));
+          shimLinks();
+        });
+      });
+    })
+  }
 
-  this.photo  = photo;
+  var recent = function(params){
+    my.flickr.recent({page : params['page'] || 1}, function(page){
+      var view = { title    : 'Recent Photos',
+                   resource : '',
+                   page     : page.photos.page,
+                   pages    : page.photos.pages,
+                   next     : page.photos.page + 1 > page.photos.pages ? 1 : page.photos.page + 1,
+                   prev     : page.photos.page - 1 < 1 ? page.photos.pages : page.photos.page - 1 };
+      ele.set('html', Mustache.to_html($('photos-page-tmpl').text, view))
+      var list = $("photo-list");
+      page.photos.photo.each(function(photo){
+        my.flickr.photo(photo.id, photo.title).thumb(function(thumb){
+          view = { title : photo.title, id : photo.id, src : thumb }
+          list.set('html', list.innerHTML + Mustache.to_html($('photo-tmb-tmpl').text, view));
+          shimLinks();
+        });
+      });
+    })
+  }
+
+
+  this.ele    = ele;
   this.flickr = flickr;
   this.route  = route;
   this.query  = query;
+  // controllers
+  this.photo  = photo;
+  this.tag    = tag;
+  this.recent = recent;
 
   typeof blk === "function" && blk(this);
   return this;
