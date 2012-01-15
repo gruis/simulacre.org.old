@@ -2,15 +2,14 @@
 layout: base
 ---
 {% raw %}
-<script src="/js/flickr-app.js", type="text/javascript"></script>
+<script src="/js/history.js/bundled/html4+html5/native.history.js"></script>
 <script src="/js/mustache.js", type="text/javascript"></script>
+<script src="/js/flickr-app.js", type="text/javascript"></script>
 <script type="text/javascript">
   // @todo - use a  templating library ...
   window.addEvent("domready", function(){
     flickrApp('ffb0f7ab9cfb19fa439130d83570d6d4', '87871204@N00', function(app){
-      console.log("received");
-      console.log(app);
-      app.route(app.query); 
+      app.route(window.location.search, true)
     })
   });
 </script>

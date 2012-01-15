@@ -14,6 +14,22 @@ var flickrApp = (function(apik, uid, blk){
   if ((ele = $('flickrApp')) == null)
     throw new FlickrAppError("container element 'flickrApp' not found");
 
+  my.history = [];
+  var record_history = function(url){
+    my.history.unshift(url);
+    History.pushState({router: url}, null, "?" + (url.split('?')[1] || ""))
+  }
+
+  var History = window.History;
+  History.Adapter.bind(window,'statechange', function(){
+       var State = History.getState();
+       if(my.history[0] != State.url){
+         // user hit the back or forward button
+         my.history.shift;
+         my.route(State.url); // should this stop history recording?
+       }
+  });
+
   /** KERNEL **/
   var merge_opts = function(obj1,obj2){
       var obj3 = {};
@@ -23,34 +39,33 @@ var flickrApp = (function(apik, uid, blk){
       return obj3;
   }
 
-  var query = (function(){
-    var qa = {}
-    window.location.search.slice(1).split("&").each(function(pair){
-        pair = pair.split("=");
-        qa[pair[0]] = pair[1];
-      });
-      return qa;
-  })();
 
-  var route = function(params){
+  var route = function(params, nohistory){
     console.log("route: ", params);
     if (typeof params == "string") {
       var qa = {};
+      nohistory || record_history(params);
       (params.split('?')[1] || "").split("&").each(function(pair){
         pair = pair.split("=")
         qa[pair[0]] = pair[1];
       });
       params = qa;
+    } else {
+      var qs = [];
+      for ( var attr in params) { qs.push(attr + "=" + params[attr]) }
+      qs = "?" + qs.join('&')
+      nohistory || record_history(qs);
     }
-    query = params;
+
+    my.query = params; // let query be accessbile from outside
 
     ele.empty();
-    if (typeof query["p"] !== "undefined")
-      my.photo(query);
-    else if(typeof query['t'] !== "undefined")
-      my.tag(query);
+    if (typeof my.query["p"] !== "undefined")
+      my.photo(my.query);
+    else if(typeof my.query['t'] !== "undefined")
+      my.tag(my.query);
     else
-      my.recent(query);
+      my.recent(my.query);
   }
 
   var shimLinks = function(){
@@ -271,7 +286,7 @@ var flickrApp = (function(apik, uid, blk){
   this.ele    = ele;
   this.flickr = flickr;
   this.route  = route;
-  this.query  = query;
+  this.query  = '';
   // controllers
   this.photo  = photo;
   this.tag    = tag;

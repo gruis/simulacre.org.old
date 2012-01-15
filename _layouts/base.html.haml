@@ -52,14 +52,14 @@
     #meta-nav
       %a#meta-logo{:href => "http://www.simulacre.org/"}
       %ul.horiz-nav
-        %li{:class => %w{/mootools-html5-audio-player/ /mootact/ /track-downloads-and-exits-using-google-analytics-and-mootools/ /meditastic-mp3s/}.include?(page.url) || 'showing' }
+        %li{:class => %w{/photo/ /mootools-html5-audio-player/ /mootact/ /track-downloads-and-exits-using-google-analytics-and-mootools/ /meditastic-mp3s/}.include?(page.url) || 'showing' }
           %a{:href => site.base_url } Blog
           %p.desc
             %a{:href => site.base_url } Javascript & Japan
-        %li
-          %a{:href => "http://www.simulacre.org/ee/"} PhotoBlog
+        %li{:class => page.url == '/photo/' && 'showing' }
+          %a{:href => "/photo/"} PhotoBlog
           %p.desc
-            %a{:href => "http://www.simulacre.org/ee/"} Kendo & Travel
+            %a{:href => "photo"} Kendo & Travel
         %li
           %a{:href => "http://www.kanjitastic.com/"} KanjiTastic
           %p.desc
