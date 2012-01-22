@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
+require 'bundler/setup'
 require 'yaml'
+require 'daemons'
+require 'eventmachine'
+require 'mailfactory'
 
 def environment
   return ENV['AWS_ENV'] if ENV['AWS_ENV']
@@ -16,4 +20,52 @@ config.merge!(config.fetch("profiles", {}).fetch(env, {}))
 port   = config[:port] || config['port'] || 4242
 bind   = config[:bind] || config['bind'] || '127.0.0.1'
 
-fork { exec(%Q{bundle exec thin -e #{env} -R config.ru -p #{port} -a #{bind} -l sinatra/log/thin.log -d start }) }
+ldir  = Dir.pwd
+dopts = {
+  :app_name   => $0.split("/")[-1],
+  :dir_mode   => :normal,
+  :dir        => File.join(ldir, 'sinatra', 'log'),
+  :multiple   => false,
+  :ontop      => false,
+  :mode       => :load,
+  :backtrace  => true,
+  :monitor    => true,
+  :log_output => true,
+}
+Daemons.run_proc($0.split("/")[-1], dopts) do
+  Dir.chdir(ldir) do |rdir|
+    system(%Q{bundle exec thin -e #{env} -R #{File.join(ldir, 'config.ru')} -p #{port} -a #{bind} -l #{File.join(ldir, 'sinatra/log/thin.log')} start})
+  end
+  
+  File.expand_path("~/.mailer.simulacre.org.yml").tap do |mc|
+    if !File.exists?(mc)
+      warn "mailer configuration #{mc} does not exists"
+    else
+      mailer = YAML.load_file(mc)
+      EM.run do
+        mail         = MailFactory.new
+        mail.to      = mailer[:to]
+        mail.from    = mailer[:from]
+        mail.subject = "Simulacre.org backend alert!"
+        mail.text    = "The simulacre.org backend process just died"
+        msg_config = {
+           :domain   => mailer[:domain],
+           :host     => mailer[:host],
+           :port     => mailer[:port],
+           :starttls => mailer[:tls],
+           :from     => mail.from,
+           :to       => mail.to,
+           :content  => "#{mail.to_s}\r\n.\r\n",
+           :verbose  => mailer[:verbose]
+        }
+        msg_config[:auth] = mailer[:auth] unless mailer[:auth].nil? || (mailer[:auth].respond_to?(:empty?) && mailer[:auth].empty? )
+        email = EM::Protocols::SmtpClient.send(msg_config)
+        email.callback { EM.stop }
+        email.errback do |e|
+          puts "failed to send #{mail.text}\n\n #{e}";
+          EM.stop
+        end
+      end
+    end # !File.exists?(mc)
+  end # |mc|
+end # Daemons.run

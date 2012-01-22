@@ -8,14 +8,12 @@ cd simulacre.org
 git config receive.denyCurrentBranch ignore
 cat > .git/hooks/post-receive << "EOR"
 #!/usr/bin/env bash
-set -e
 function build_and_run {
     [[ -z "$1" ]] || echo -e $1
     gtd=$GIT_DIR
     unset GIT_DIR
-    bundle install --path .bundle/gems 
-    [[ -e tmp/pids/thin.pid ]] && ./stop && sleep 2 
-    ./start && touch tmp/last_restart
+    bundle install --path .bundle/gems
+    ./backend restart && touch tmp/last_restart
     GIT_DIR=$gtd
 }
 
@@ -31,7 +29,7 @@ if [ -f tmp/restart ]; then
     fi
   fi
 else
-  [[ -e tmp/pids/thin.pid ]] || ./start
+  [[ -e sinatra/log/backend_monitor.pid ]] || ./backend start
 fi
 
 echo -e "\ndone"

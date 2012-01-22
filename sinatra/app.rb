@@ -6,7 +6,14 @@ require "ferret"
 
 register Sinatra::Async
 
-set :mailer, YAML.load_file(".mailer.yml") if File.exists?(".mailer.yml")
+File.expand_path("~/.mailer.simulacre.org.yml").tap do |mc|
+  if File.exists?(mc)
+    set :mailer, YAML.load_file(mc)
+  else
+    warn "mailer configuration #{mc} does not exists"
+  end
+end
+
 set :sindex, Ferret::Index::Index.new
 
 post_generate do

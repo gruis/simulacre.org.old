@@ -7,6 +7,9 @@ def env
 end
 
 source :rubygems
+gem 'daemons'
+
+
 gem 'rb-inotify'
 gem 'rb-fsevent'
 gem 'directory_watcher'

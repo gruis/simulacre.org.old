@@ -6,4 +6,5 @@ sinatra/ferret.idx/**/*
 tmp/**/*
 start
 stop
+backend
 setup.sh

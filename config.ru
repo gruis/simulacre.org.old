@@ -82,4 +82,17 @@ class Awestruct::Sinatra < Sinatra::Base
   instance_eval(IO.read(awe.site.sinatra_app), awe.site.sinatra_app, 1) if File.exists?(awe.site.sinatra_app)
 end # class::Awestruct::Sinatra < Sinatra::Base
 
+at_exit do
+  if $!
+    open(File.expand_path("../sinatra/log/crash.log", __FILE__), "a") do |clog|
+      e = {
+        :timestamp => Time.now,
+        :error     => $!.message,
+        :trace     => $!.backtrace
+      }
+      YAML.dump(e, clog)
+    end
+  end
+end
+
 $0 == __FILE__ ? Awestruct::Sinatra.run! : (run Awestruct::Sinatra)

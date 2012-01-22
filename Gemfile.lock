@@ -90,6 +90,7 @@ PLATFORMS
 DEPENDENCIES
   async_sinatra
   awestruct!
+  daemons
   directory_watcher
   disqus
   mailfactory
