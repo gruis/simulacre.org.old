@@ -2,3 +2,5 @@ sinatra/log
 .mailer.yml
 .DS_Store
 .bundle
+.sass-cache
+_site
