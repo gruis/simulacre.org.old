@@ -119,30 +119,33 @@ EM.run {
 }
 ```
 
+    $ ruby test/auto-demo.rb
+    [pry-remote-em] listening for connections on pryem://localhost:6462/
+    [pry-remote-em] listening for connections on pryem://localhost:6463/
+    [pry-remote-em] listening for connections on pryem://localhost:6464/
+    [pry-remote-em] listening for connections on pryem://localhost:6465/
+    [pry-remote-em] listening for connections on pryem://localhost:6466/
+
 ```shell
 $ pry-remote-em
 [pry-remote-em] client connected to pryem://127.0.0.1:6462/
 [pry-remote-em] remote is PryRemoteEm 0.4.0 pryem
 [1] pry("pretty_print")> 
 
-
 $ pry-remote-em  pryem://127.0.0.1:6463/
 [pry-remote-em] client connected to pryem://127.0.0.1:6463/
 [pry-remote-em] remote is PryRemoteEm 0.4.0 pryem
 [1] pry("pack")> 
-
 
 $ pry-remote-em  pryem://127.0.0.1:6464/
 [pry-remote-em] client connected to pryem://127.0.0.1:6464/
 [pry-remote-em] remote is PryRemoteEm 0.4.0 pryem
 [1] pry("to_json")>
 
-
 $ pry-remote-em  pryem://127.0.0.1:6465/
 [pry-remote-em] client connected to pryem://127.0.0.1:6465/
 [pry-remote-em] remote is PryRemoteEm 0.4.0 pryem
 [1] pry("to_json")> 
-
 
 $ pry-remote-em  pryem://127.0.0.1:6466/
 [pry-remote-em] client connected to pryem://127.0.0.1:6466/
