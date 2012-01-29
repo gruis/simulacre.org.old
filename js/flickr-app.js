@@ -1,4 +1,4 @@
-var flickrApp = (function(apik, uid, opts, blk){
+var flickrApp = (function(apik, uid, blk){
   if ( !(this instanceof flickrApp) )
     return new flickrApp(apik, uid, blk);
 
@@ -77,6 +77,7 @@ var flickrApp = (function(apik, uid, opts, blk){
       my.recent(my.query);
   }
 
+  // FIXME : only shim links that are in this domain
   var shimLinks = function(){
     ele.getElements('a').each(function(el){
       if (el.get('shimmed')) { return }
@@ -234,6 +235,7 @@ var flickrApp = (function(apik, uid, opts, blk){
           'height'      : img.height,
           'width'       : img.width
         };
+        // FIXME links in description are not being parsed by the browser
         ele.set('html', Mustache.to_html($('photo-tmpl').text, view) + (ele.innerHTML || ""));
         shimLinks();
       });
