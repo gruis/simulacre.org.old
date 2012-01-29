@@ -1,6 +1,7 @@
-var flickrApp = (function(apik, uid, blk){
+var flickrApp = (function(apik, uid, opts, blk){
   if ( !(this instanceof flickrApp) )
     return new flickrApp(apik, uid, blk);
+
   var FlickrAppError = function(message) {
     this.name = "FlickrAppError";
     this.message = message || "";
@@ -37,6 +38,14 @@ var flickrApp = (function(apik, uid, blk){
         for (var attr in obj) { obj3[attr] = obj[attr]; }
       })
       return obj3;
+  }
+
+  var a_find = function(a, cb) {
+    var l = a.length;
+    for (var i = 0; i < l; i++)
+      if(cb(a[i]))
+        return a[i];
+    return undefined;
   }
 
 
@@ -174,7 +183,7 @@ var flickrApp = (function(apik, uid, blk){
             } else {
               photoCache[phid].sizes(function(sizes){
                 // @todo look for the one with the label 'thumbnail'
-                cb(sizes.sizes.size[1].source);
+                sizes.sizes && cb(sizes.sizes.size[1].source);
               });
             }
             return photoCache[phid]
@@ -208,8 +217,14 @@ var flickrApp = (function(apik, uid, blk){
     var p = my.flickr.photo(params['p']);
     p.info(function(info){
       p.sizes(function(sizes){
-        // @todo pick on that is an appropriate size
-        var img = sizes.sizes.size.slice(-1)[0];
+        // TODO make max width configurable
+        var img = a_find(sizes.sizes.size.reverse(), function(size){ return parseInt(size.width) < 550; })
+                    || sizes.sizes.size[0];
+        if(!img) {
+          console.error("couldn't find an appropriate image");
+          return;
+        };
+
         view = {
           'title'       : info.photo.title._content,
           'description' : info.photo.description._content,
