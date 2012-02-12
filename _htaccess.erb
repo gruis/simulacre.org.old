@@ -31,3 +31,4 @@ RewriteRule ^(.*)$ http://localhost:<%= port || '4242' %>/$1 [P,L]
 AddHandler php5-script .php
 DirectoryIndex index.html index.xml index.php
 ErrorDocument 404 /404.html
+ErrorDocument 503 /503.html
