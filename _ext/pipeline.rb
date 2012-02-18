@@ -9,6 +9,7 @@ Awestruct::Extensions::Pipeline.new do
   extension Simulacre::Awestruct::Extensions::Archive.new
   extension Awestruct::Extensions::Disqus.new
   extension Awestruct::Extensions::Atomizer.new( :posts, '/feed/index.xml' )
+  extension Awestruct::Extensions::Sitemap.new
 
   helper Awestruct::Extensions::Partial
   helper Awestruct::Extensions::Tagger::TagLinker
