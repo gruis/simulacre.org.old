@@ -46,54 +46,5 @@ Daemons.run_proc($0.split("/")[-1], dopts) do
     end
     Process.waitpid(pid)
     puts "thin #{pid} terminated"
-  
-    unless ignore_death
-      File.expand_path("~/.mailer.simulacre.org.yml").tap do |mc|
-        if !File.exists?(mc)
-          warn "mailer configuration #{mc} does not exists"
-        else
-          sendlogf = File.join(ldir, 'sinatra/log/mail.log')
-          sendlog  = File.exists?(sendlogf) ? IO.read(sendlogf).each_line.map(&:to_i) : []
-          if sendlog.length == 0
-            sendlog.push((Time.new - 2).to_i)
-            sendlog.push(sendlog[-1] + 1)
-          elsif sendlog.length == 1
-            sendlog.push(sendlog[-1] + 1)
-          end 
-          gap = Time.new.to_i - sendlog[-1]
-          # Rate limit the failure e-mails within 2 hours
-          if gap >= 7200 || gap >= ((sendlog[-1] - sendlog[-2]) * 2)
-            mailer = YAML.load_file(mc)
-            EM.run do
-              mail         = MailFactory.new
-              mail.to      = mailer[:to]
-              mail.from    = mailer[:from]
-              mail.subject = "Simulacre.org backend alert!"
-              mail.text    = "The simulacre.org backend process just died"
-              msg_config = {
-                 :domain   => mailer[:domain],
-                 :host     => mailer[:host],
-                 :port     => mailer[:port],
-                 :starttls => mailer[:tls],
-                 :from     => mail.from,
-                 :to       => mail.to,
-                 :content  => "#{mail.to_s}\r\n.\r\n",
-                 :verbose  => mailer[:verbose]
-              }
-              msg_config[:auth] = mailer[:auth] unless mailer[:auth].nil? || (mailer[:auth].respond_to?(:empty?) && mailer[:auth].empty? )
-              email = EM::Protocols::SmtpClient.send(msg_config)
-              email.callback do 
-                File.open(sendlogf, "a") { |f| f.puts(Time.new.to_i) }
-                EM.stop
-              end 
-              email.errback do |e|
-                puts "failed to send #{mail.text}\n\n #{e}";
-                EM.stop
-              end
-            end
-          end # gap > prevgap
-        end # !File.exists?(mc)
-      end # |mc|
-    end # ignore_death
   end # rdir
 end # Daemons.run
