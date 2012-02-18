@@ -4,7 +4,7 @@ summary:  '[GNU Screen](http://www.gnu.org/software/screen/) is a great terminal
 categories:
 - unix
 tags:
-- linux & unix
+- linux and unix
 - GNU Screen
 - cli
 - utilities
