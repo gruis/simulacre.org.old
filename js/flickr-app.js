@@ -77,9 +77,13 @@ var flickrApp = (function(apik, uid, blk){
       my.recent(my.query);
   }
 
-  // FIXME : only shim links that are in this domain
   var shimLinks = function(){
     ele.getElements('a').each(function(el){
+      var href = el.get('href');
+      if (!href) { return; }
+      if (href.substring(0,4) == 'http')
+        if(href.substring(0, window.location.origin.length) != window.location.origin)
+          return;
       if (el.get('shimmed')) { return }
       el.removeEvents('click');
       el.addEvent('click', function(e){
