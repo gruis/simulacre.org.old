@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-require 'bundler/setup'
 require 'yaml'
 require 'daemons'
 require 'eventmachine'
@@ -46,7 +45,7 @@ Daemons.run_proc($0.split("/")[-1], dopts) do
       if $?.exitstatus != 0
         $stderr.puts "assuming bundle install is required"
         # https://github.com/rails/rails/issues/3153#issuecomment-3477305
-        ENV['RUBYOPT'] = ENV['RUBYOPT'].split("-rbundler/setup").join
+        ENV['RUBYOPT'] &&= ENV['RUBYOPT'].split("-rbundler/setup").join
         system('bundle install')
         $stderr.puts "done with install: #{$?.exitstatus}"
         $?.exitstatus == 0 && exec(start_cmd)

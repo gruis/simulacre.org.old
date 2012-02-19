@@ -47,17 +47,14 @@ class Awestruct::Sinatra < Sinatra::Base
         @generate_cbs.each { |cb| cb.call }
         @generated = @generate_cbs.empty? 
       end 
-    end # post_generate(&blk
+    end
   end 
 
   enable :static, :logging
   disable :run
 
   awc = Awestruct::Config.new(Dir.pwd)
-  set :awe, awe = Awestruct::Engine.new(awc)
-  puts "environment: #{environment}"
-  puts "env: #{settings.environment}"
-  puts "awe: #{awe.site.base_url}"
+  set :awe, awe = Awestruct::Engine.new(awc).tap{|e| e.send(:load_site_yaml, environment) }
   generate(settings.environment == :production || ARGV.include?("regenerate"))
 
   set :server, %w{ thin webrick }

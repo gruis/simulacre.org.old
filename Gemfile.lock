@@ -1,4 +1,11 @@
 GIT
+  remote: git://github.com/simulacre/octopress.git
+  revision: cb7123f03b17a4d57f26c0393a0efa0ff9a8d9d3
+  specs:
+    octopress-plugins (0.0.1)
+      pygments.rb
+
+GIT
   remote: git://github.com/simulacre/tilt.git
   revision: 3780500ab6a248b9af5a09dea89419cd02941d2d
   branch: bug-119_redcarpet_extensions
@@ -20,12 +27,6 @@ PATH
       redcarpet
       sass (<= 3.1.0)
       tilt
-
-PATH
-  remote: /Users/caleb/src/octopress
-  specs:
-    octopress-plugins (0.0.1)
-      pygments.rb
 
 GEM
   remote: http://rubygems.org/
@@ -76,9 +77,9 @@ GEM
     sdsykes-ferret (0.11.6.19)
       rake (> 0.0.0)
     sinatra (1.3.1)
-      rack (>= 1.3.4, ~> 1.3)
-      rack-protection (>= 1.1.2, ~> 1.1)
-      tilt (>= 1.3.3, ~> 1.3)
+      rack (~> 1.3, >= 1.3.4)
+      rack-protection (~> 1.1, >= 1.1.2)
+      tilt (~> 1.3, >= 1.3.3)
     thin (1.3.1)
       daemons (>= 1.0.9)
       eventmachine (>= 0.12.6)
