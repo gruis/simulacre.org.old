@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 # encoding: UTF-8
+
 require "bundler/setup"
 require "awestruct"
 require 'sinatra/base'
@@ -12,10 +13,22 @@ EM.kqueue = EM.kqueue? if Config::CONFIG['host_os'] =~ /darwin/
 
 class Awestruct::Sinatra < Sinatra::Base
   class << self
+    def environment
+      return ENV['AWS_ENV'] if ENV['AWS_ENV']
+      if (arg_env = %w(production uat developemnt).find{|e| ARGV.include?(e) })
+        return arg_env
+      end
+      [File.expand_path('~/'), "/etc"].each do |pre|
+        %w(production uat developemnt).each {|e| return e if File.exists?("#{pre}/#{e}") }
+      end
+      return 'development'
+    end
+
     def generating?; @generating end
     def generate(force = false)
       return nil if generating?
-      @generating = true
+      puts %Q{awe.generate(#{environment.to_s}, #{awe.site.base_url}, "http://localhost:#{port}", #{force})}
+     @generating = true
       respond_to?(:dw) && dw.stop
       respond_to?(:awe) && awe.generate(environment.to_s, awe.site.base_url, "http://localhost:#{port}", force)
       respond_to?(:dw) && dw.start
@@ -42,7 +55,10 @@ class Awestruct::Sinatra < Sinatra::Base
 
   awc = Awestruct::Config.new(Dir.pwd)
   set :awe, awe = Awestruct::Engine.new(awc)
-  generate(settings.environment == :production || ARGV[0] == "regenerate")
+  puts "environment: #{environment}"
+  puts "env: #{settings.environment}"
+  puts "awe: #{awe.site.base_url}"
+  generate(settings.environment == :production || ARGV.include?("regenerate"))
 
   set :server, %w{ thin webrick }
   set :bind, awe.site.bind || '127.0.0.1'

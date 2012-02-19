@@ -8,13 +8,16 @@ require 'mailfactory'
 
 def environment
   return ENV['AWS_ENV'] if ENV['AWS_ENV']
+  if (arg_env = %w(production uat developemnt).find{|e| ARGV.include?(e) })
+    return arg_env
+  end
   [File.expand_path('~/'), "/etc"].each do |pre|
     %w(production uat developemnt).each {|e| return e if File.exists?("#{pre}/#{e}") }
   end
   return 'development'
 end
 
-env    = ARGV[0] || environment
+env    = %w(production uat developemnt).find{|e| ARGV.include?(e) } || environment
 config = YAML.load_file("_config/site.yml")
 config.merge!(config.fetch("profiles", {}).fetch(env, {}))
 port   = config[:port] || config['port'] || 4242
@@ -35,13 +38,23 @@ dopts = {
 Daemons.run_proc($0.split("/")[-1], dopts) do
   Dir.chdir(ldir) do |rdir|
     pid = fork do 
-      exec(%Q{bundle exec thin -e #{env} -R #{File.join(ldir, 'config.ru')} -p #{port} -a #{bind} -l #{File.join(ldir, 'sinatra/log/thin.log')} start})
+      ENV['AWS_ENV'] = env
+      start_cmd = %Q{bundle exec thin -e #{env} -R #{File.join(ldir, 'config.ru')} -p #{port} -a #{bind} -l #{File.join(ldir, 'sinatra/log/thin.log')} start}
+
+      $stderr.puts start_cmd
+      system(start_cmd)
+      if $?.exitstatus != 0
+        $stderr.puts "assuming bundle install is required"
+        # https://github.com/rails/rails/issues/3153#issuecomment-3477305
+        ENV['RUBYOPT'] = ENV['RUBYOPT'].split("-rbundler/setup").join
+        system('bundle install')
+        $stderr.puts "done with install: #{$?.exitstatus}"
+        $?.exitstatus == 0 && exec(start_cmd)
+      end 
     end
     puts "thin started on #{pid}"
-    ignore_death = false
     trap("SIGTERM") do 
       puts "stopping #{pid}"
-      ignore_death = true
       Process.kill("KILL", pid) 
     end
     Process.waitpid(pid)
