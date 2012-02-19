@@ -37,7 +37,7 @@ layout: base
   <a href="{{url}}" title="{{title}}">
     <img style="float:left; padding-right:1em; padding-bottom:2em;" src="{{src}}" height="{{height}}" width="{{width}}" />
   </a>
-  <p>{{description}}
+  <p class="description">{{description}}</p>
   <ul class="tags photo" style="float:left; margin-right:2em; font-size: 10.5pt;">
   Tags:
   {{#tags}}

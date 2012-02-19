@@ -235,8 +235,9 @@ var flickrApp = (function(apik, uid, blk){
           'height'      : img.height,
           'width'       : img.width
         };
-        // FIXME links in description are not being parsed by the browser
+        console.log(view['description']);
         ele.set('html', Mustache.to_html($('photo-tmpl').text, view) + (ele.innerHTML || ""));
+        ele.getElement('p.description').innerHTML = view['description']
         shimLinks();
       });
     }).next(function(nextp){
