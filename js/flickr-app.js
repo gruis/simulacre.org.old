@@ -266,7 +266,7 @@ var flickrApp = (function(apik, uid, blk){
 
   var tag = function(params){
     my.flickr.search.tag(params['t'], {page : params['page'] || 1}, function(page){
-      var view = { title    : 'Photos tagged ' + params['t'],
+      var view = { title    : 'Photos tagged ' + decodeURI(params['t']),
                    resource : 't=' + params['t'],
                    page     : page.photos.page,
                    pages    : page.photos.pages,
