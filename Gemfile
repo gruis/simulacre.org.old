@@ -23,11 +23,10 @@ gem 'disqus'
 
 gem 'tilt', :git => 'git://github.com/simulacre/tilt.git', :branch => 'bug-119_redcarpet_extensions'
 
-gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"
 if env == :development
-  #gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"
+  gem 'awestruct', :path => File.dirname(__FILE__) + "/../awestruct/"
   gem 'octopress-plugins', :require => 'octopress', :path => File.dirname(__FILE__) + "/../octopress/"
 else
-  #gem 'awestruct', :git => 'git://github.com/simulacre/awestruct.git'
+  gem 'awestruct', :git => 'git://github.com/simulacre/awestruct.git'
   gem 'octopress-plugins', :require => 'octopress', :git => 'git://github.com/simulacre/octopress.git'
 end # env == :development
